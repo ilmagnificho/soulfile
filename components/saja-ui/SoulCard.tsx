@@ -137,10 +137,10 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
                     </div>
                 </div>
 
-                {/* Card Number - Centered */}
-                <div className="absolute top-14 left-4 right-4">
+                {/* Card Number - Positioned clearly below header row */}
+                <div className="absolute top-[75px] left-4 right-4">
                     <p
-                        className="font-mono text-base tracking-[0.15em] text-center"
+                        className="font-mono text-sm tracking-[0.12em] text-center"
                         style={{ color: 'rgba(255,255,255,0.85)' }}
                     >
                         {cardNumber}
