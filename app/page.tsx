@@ -5,7 +5,7 @@ import FortuneForm from "@/components/saja-ui/FortuneForm";
 
 export default function HomePage() {
   return (
-    <main className="h-[100dvh] flex flex-col items-center justify-between py-4 sm:py-8 px-4 bg-black relative overflow-hidden">
+    <main className="min-h-[100dvh] flex flex-col items-center justify-between py-4 sm:py-8 px-4 bg-black relative overflow-hidden">
       {/* Background grid effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
 
@@ -14,7 +14,7 @@ export default function HomePage() {
 
       <div className="relative z-10 w-full max-w-4xl flex-1 flex flex-col justify-center">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-12">
+        <div className="text-center mb-4 sm:mb-6 md:mb-12">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -53,7 +53,7 @@ export default function HomePage() {
             transition={{
               duration: 0.8,
             }}
-            className="text-6xl md:text-8xl font-bold mb-4 text-white"
+            className="text-4xl sm:text-6xl md:text-8xl font-bold mb-4 text-white"
             style={{
               textShadow: `
                 0 0 10px rgba(220, 38, 38, 1),

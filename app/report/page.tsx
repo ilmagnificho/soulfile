@@ -71,16 +71,13 @@ function ReportContent() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 sm:mb-8"
                 >
-                    {/* Return to Terminal - Fixed Floating Button */}
+                    {/* Return to Terminal - Top Left Terminal Command */}
                     <Link
                         href="/"
-                        className="fixed bottom-6 left-6 z-50 border-2 border-zinc-700 bg-black/90 backdrop-blur-sm px-6 py-3 text-xs uppercase tracking-widest hover:bg-zinc-900 hover:border-red-600 transition-all flex items-center gap-2 shadow-lg"
-                        style={{
-                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
-                        }}
+                        className="fixed top-4 left-4 z-50 font-mono text-xs sm:text-sm bg-black/90 border border-zinc-700 px-3 py-2 hover:bg-zinc-900 hover:text-green-400 transition-all flex items-center gap-2 shadow-md"
                     >
-                        <span>←</span>
-                        <span className="text-zinc-400">Return to Terminal</span>
+                        <span>&lt;</span>
+                        <span>TERMINAL_ACCESS</span>
                     </Link>
 
                     <div className="border-l-4 border-red-600 pl-4">
@@ -345,58 +342,61 @@ function ReportContent() {
                                     </div>
                                 </div>
 
-                                {/* CTA Button with intense pulsing glow */}
-                                <motion.button
-                                    onClick={handleUnlock}
-                                    disabled={isProcessingPayment}
-                                    whileHover={!isProcessingPayment ? { scale: 1.08, rotate: 1 } : {}}
-                                    whileTap={!isProcessingPayment ? { scale: 0.92 } : {}}
-                                    animate={!isProcessingPayment ? {
-                                        boxShadow: [
-                                            "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                            "0 0 50px rgba(220, 38, 38, 1), 0 0 100px rgba(220, 38, 38, 0.7), 0 0 150px rgba(220, 38, 38, 0.4)",
-                                            "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                        ],
-                                        scale: [1, 1.03, 1]
-                                    } : {}}
-                                    transition={{
-                                        boxShadow: {
-                                            duration: 2,
-                                            repeat: Infinity,
-                                            ease: "easeInOut"
-                                        },
-                                        scale: {
-                                            duration: 2,
-                                            repeat: Infinity,
-                                            ease: "easeInOut"
-                                        }
-                                    }}
-                                    className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
-                                    style={!isProcessingPayment ? { willChange: "transform, box-shadow" } : {}}
-                                >
-                                    {isProcessingPayment ? (
-                                        <>
-                                            <Loader2 className="w-5 h-5 animate-spin" />
-                                            Processing...
-                                        </>
-                                    ) : (
-                                        "🔓 UNLOCK SOULFILE 2026 ($4.99)"
-                                    )}
-                                </motion.button>
+                                {/* Payment Button - Sticky on Mobile, Inline on Desktop */}
+                                <div className="fixed md:relative bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto z-50 md:z-auto bg-black md:bg-transparent p-4 md:p-0 border-t md:border-t-0 border-zinc-800">
+                                    {/* CTA Button with intense pulsing glow */}
+                                    <motion.button
+                                        onClick={handleUnlock}
+                                        disabled={isProcessingPayment}
+                                        whileHover={!isProcessingPayment ? { scale: 1.08, rotate: 1 } : {}}
+                                        whileTap={!isProcessingPayment ? { scale: 0.92 } : {}}
+                                        animate={!isProcessingPayment ? {
+                                            boxShadow: [
+                                                "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
+                                                "0 0 50px rgba(220, 38, 38, 1), 0 0 100px rgba(220, 38, 38, 0.7), 0 0 150px rgba(220, 38, 38, 0.4)",
+                                                "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
+                                            ],
+                                            scale: [1, 1.03, 1]
+                                        } : {}}
+                                        transition={{
+                                            boxShadow: {
+                                                duration: 2,
+                                                repeat: Infinity,
+                                                ease: "easeInOut"
+                                            },
+                                            scale: {
+                                                duration: 2,
+                                                repeat: Infinity,
+                                                ease: "easeInOut"
+                                            }
+                                        }}
+                                        className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
+                                        style={!isProcessingPayment ? { willChange: "transform, box-shadow" } : {}}
+                                    >
+                                        {isProcessingPayment ? (
+                                            <>
+                                                <Loader2 className="w-5 h-5 animate-spin" />
+                                                Processing...
+                                            </>
+                                        ) : (
+                                            "🔓 UNLOCK SOULFILE 2026 ($4.99)"
+                                        )}
+                                    </motion.button>
 
-                                <p className="text-zinc-600 text-xs mt-4">
-                                    Secure checkout by Lemon Squeezy 🍋
-                                </p>
+                                    <p className="text-zinc-600 text-xs mt-4">
+                                        Secure checkout by Lemon Squeezy 🍋
+                                    </p>
 
-                                {/* Bonus Item Notice */}
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 1 }}
-                                    className="mt-6 border border-zinc-700 bg-black/50 px-4 py-2 text-xs text-zinc-400"
-                                >
-                                    ✨ Bonus: Anti-Bad-Luck Charm included
-                                </motion.div>
+                                    {/* Bonus Item Notice */}
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 1 }}
+                                        className="mt-6 border border-zinc-700 bg-black/50 px-4 py-2 text-xs text-zinc-400"
+                                    >
+                                        ✨ Bonus: Anti-Bad-Luck Charm included
+                                    </motion.div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -405,10 +405,10 @@ function ReportContent() {
                 {/* Footer */}
                 <div className="mt-8 sm:mt-12 text-center">
                     <p className="text-zinc-600 text-xs uppercase tracking-wider">
-                        This soul file is managed by the Saja Boys
+                        SYSTEM SECURE // ENCRYPTED BY SOULFILE ARCHIVES
                     </p>
                     <p className="text-zinc-700 text-xs mt-2 font-mono">
-                        CLASSIFIED // NETHERWORLD DATABASE
+                        NETHERWORLD DATABASE V2.6
                     </p>
                 </div>
             </div>
