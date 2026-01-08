@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { toPng } from "html-to-image";
 import { Download, Share2 } from "lucide-react";
@@ -14,7 +14,7 @@ interface SoulCardProps {
 const elementAccents: Record<string, { primary: string; secondary: string; seal: string }> = {
     fire: { primary: "#D4AF37", secondary: "#B8860B", seal: "火" },
     water: { primary: "#C0C0C0", secondary: "#A9A9A9", seal: "水" },
-    wood: { primary: "#D4AF37", secondary: "#228B22", seal: "木" },
+    wood: { primary: "#90EE90", secondary: "#228B22", seal: "木" },
     metal: { primary: "#E8E8E8", secondary: "#C0C0C0", seal: "金" },
     earth: { primary: "#DAA520", secondary: "#B8860B", seal: "土" },
 };
@@ -23,10 +23,19 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const accent = elementAccents[element] || elementAccents.earth;
 
-    const generateCardNumber = () => {
+    // Stable card number - memoized to prevent re-renders
+    const cardNumber = useMemo(() => {
         const hash = (name + birthDate).split('').reduce((a, b) => a + b.charCodeAt(0), 0);
         return `${String(hash % 10000).padStart(4, '0')} ${String((hash * 7) % 10000).padStart(4, '0')} ${String((hash * 13) % 10000).padStart(4, '0')} ${String((hash * 17) % 10000).padStart(4, '0')}`;
-    };
+    }, [name, birthDate]);
+
+    // Stable barcode pattern
+    const barcodePattern = useMemo(() => {
+        return Array.from({ length: 35 }).map((_, i) => ({
+            width: (i * 7 + 3) % 2 === 0 ? 2 : 1,
+            opacity: 0.3 + ((i * 11) % 30) / 100,
+        }));
+    }, []);
 
     const downloadCard = async () => {
         if (!cardRef.current) return;
@@ -71,99 +80,105 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
             {/* Premium Black Card */}
             <div
                 ref={cardRef}
-                className="relative w-[350px] h-[220px] rounded-xl overflow-hidden"
+                className="relative w-[340px] h-[200px] rounded-xl overflow-hidden"
                 style={{
                     background: `linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 50%, #141414 100%)`,
                     boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05)`,
                 }}
             >
-                {/* Subtle chip texture overlay */}
+                {/* Subtle noise texture */}
                 <div
-                    className="absolute inset-0 opacity-[0.03]"
+                    className="absolute inset-0 opacity-[0.02]"
                     style={{
                         backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E")`,
                     }}
                 />
 
-                {/* Card chip */}
-                <div
-                    className="absolute top-6 left-6 w-10 h-8 rounded-sm"
-                    style={{
-                        background: `linear-gradient(135deg, ${accent.primary} 0%, ${accent.secondary} 100%)`,
-                        boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.3)',
-                    }}
-                >
-                    <div className="w-full h-full grid grid-cols-3 gap-[1px] p-[3px]">
-                        {Array.from({ length: 6 }).map((_, i) => (
-                            <div key={i} className="bg-black/30 rounded-[1px]" />
-                        ))}
+                {/* Top Row - Chip + Brand + Year */}
+                <div className="absolute top-4 left-4 right-4 flex items-start justify-between">
+                    {/* Chip + Brand */}
+                    <div className="flex items-center gap-3">
+                        {/* Card chip */}
+                        <div
+                            className="w-9 h-7 rounded-sm"
+                            style={{
+                                background: `linear-gradient(135deg, ${accent.primary} 0%, ${accent.secondary} 100%)`,
+                                boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.3)',
+                            }}
+                        >
+                            <div className="w-full h-full grid grid-cols-3 gap-[1px] p-[2px]">
+                                {Array.from({ length: 6 }).map((_, i) => (
+                                    <div key={i} className="bg-black/30 rounded-[1px]" />
+                                ))}
+                            </div>
+                        </div>
+                        {/* Brand */}
+                        <div>
+                            <p
+                                className="text-[9px] font-bold tracking-[0.2em] uppercase"
+                                style={{ color: accent.primary }}
+                            >
+                                SOULFILE
+                            </p>
+                            <p className="text-[6px] text-zinc-600 tracking-widest">CYBER-SHAMANISM</p>
+                        </div>
+                    </div>
+
+                    {/* Year Badge */}
+                    <div
+                        className="px-2 py-1 rounded text-[8px] font-bold tracking-wider"
+                        style={{
+                            backgroundColor: `${accent.primary}15`,
+                            color: accent.primary,
+                            border: `1px solid ${accent.primary}30`,
+                        }}
+                    >
+                        2026
                     </div>
                 </div>
 
-                {/* Top Left - Brand */}
-                <div className="absolute top-6 left-20">
+                {/* Card Number - Centered */}
+                <div className="absolute top-14 left-4 right-4">
                     <p
-                        className="text-[10px] font-bold tracking-[0.3em] uppercase"
-                        style={{ color: accent.primary }}
+                        className="font-mono text-base tracking-[0.15em] text-center"
+                        style={{ color: 'rgba(255,255,255,0.85)' }}
                     >
-                        SOULFILE
-                    </p>
-                    <p className="text-[7px] text-zinc-600 tracking-widest">INC.</p>
-                </div>
-
-                {/* Top Right - Access Status */}
-                <div className="absolute top-6 right-6 text-right">
-                    <p className="text-[8px] text-zinc-500 tracking-wider">2026</p>
-                    <p
-                        className="text-[9px] font-semibold tracking-wide"
-                        style={{ color: accent.primary }}
-                    >
-                        ACCESS GRANTED
-                    </p>
-                </div>
-
-                {/* Center - Card Number */}
-                <div className="absolute top-16 left-6 right-6">
-                    <p
-                        className="font-mono text-lg tracking-[0.2em]"
-                        style={{ color: 'rgba(255,255,255,0.8)' }}
-                    >
-                        {generateCardNumber()}
+                        {cardNumber}
                     </p>
                 </div>
 
                 {/* Bottom Section */}
-                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                <div className="absolute bottom-8 left-4 right-4 flex justify-between items-end">
                     {/* Name & Element */}
                     <div>
-                        <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-1">Subject</p>
+                        <p className="text-[8px] text-zinc-600 uppercase tracking-wider mb-0.5">Subject</p>
                         <p
-                            className="text-sm font-semibold uppercase tracking-wide"
+                            className="text-xs font-semibold uppercase tracking-wide"
                             style={{ color: 'rgba(255,255,255,0.9)' }}
                         >
                             {name}
                         </p>
                         <p
-                            className="text-[10px] uppercase tracking-[0.2em] mt-1"
+                            className="text-[9px] uppercase tracking-[0.15em] mt-0.5"
                             style={{ color: accent.primary }}
                         >
-                            {element} Element
+                            {element.toUpperCase()} ELEMENT
                         </p>
                     </div>
 
                     {/* Seal */}
                     <div
-                        className="w-12 h-12 rounded-full border-2 flex items-center justify-center"
+                        className="w-10 h-10 rounded-full border flex items-center justify-center"
                         style={{
-                            borderColor: `${accent.primary}40`,
-                            background: `linear-gradient(145deg, rgba(0,0,0,0.5), rgba(20,20,20,0.8))`,
+                            borderColor: `${accent.primary}50`,
+                            background: `radial-gradient(circle, rgba(0,0,0,0.3), rgba(20,20,20,0.8))`,
                         }}
                     >
                         <span
-                            className="text-xl font-bold"
+                            className="text-lg font-bold"
                             style={{
                                 color: accent.primary,
-                                textShadow: `0 0 10px ${accent.primary}40`,
+                                textShadow: `0 0 8px ${accent.primary}40`,
                             }}
                         >
                             {accent.seal}
@@ -171,21 +186,21 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
                     </div>
                 </div>
 
-                {/* Barcode at bottom edge */}
-                <div className="absolute bottom-0 left-0 right-0 h-6 flex items-center justify-center gap-[1px] px-6 bg-black/50">
-                    {Array.from({ length: 40 }).map((_, i) => (
+                {/* Barcode at bottom */}
+                <div className="absolute bottom-0 left-0 right-0 h-5 flex items-center justify-center gap-[1px] px-4 bg-black/60">
+                    {barcodePattern.map((bar, i) => (
                         <div
                             key={i}
-                            className="h-3"
+                            className="h-2.5"
                             style={{
-                                width: Math.random() > 0.5 ? '2px' : '1px',
-                                backgroundColor: `rgba(255,255,255,${0.2 + Math.random() * 0.3})`,
+                                width: `${bar.width}px`,
+                                backgroundColor: `rgba(255,255,255,${bar.opacity})`,
                             }}
                         />
                     ))}
                 </div>
 
-                {/* Holographic line accent */}
+                {/* Top accent line */}
                 <div
                     className="absolute top-0 left-0 right-0 h-[1px]"
                     style={{
@@ -195,23 +210,23 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-4">
+            <div className="flex gap-3">
                 <motion.button
                     onClick={shareCard}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 text-sm hover:bg-zinc-800 hover:border-zinc-600 transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs hover:bg-zinc-800 hover:border-zinc-600 transition-all rounded"
                 >
-                    <Share2 className="w-4 h-4" />
+                    <Share2 className="w-3.5 h-3.5" />
                     SHARE
                 </motion.button>
                 <motion.button
                     onClick={downloadCard}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 text-sm hover:bg-zinc-800 hover:border-zinc-600 transition-all"
+                    className="flex items-center gap-2 px-5 py-2.5 bg-zinc-900 border border-zinc-700 text-zinc-300 text-xs hover:bg-zinc-800 hover:border-zinc-600 transition-all rounded"
                 >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-3.5 h-3.5" />
                     DOWNLOAD
                 </motion.button>
             </div>
