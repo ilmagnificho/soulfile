@@ -63,7 +63,7 @@ function ReportContent() {
     return (
         <div className="relative">
             {/* MAIN CONTENT */}
-            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-48">
+            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-56">
                 {/* Background effects */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10 pointer-events-none" />
 
@@ -121,9 +121,9 @@ function ReportContent() {
                                         <p className="text-zinc-400 text-sm">{elementData.description}</p>
                                     </div>
                                 </div>
-                                <div className="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
+                                <div className="mt-4 flex flex-wrap gap-3 justify-center sm:justify-start">
                                     {elementData.traits.map((trait, i) => (
-                                        <span key={i} className="px-3 py-1 bg-zinc-800 rounded-md text-xs uppercase tracking-wider text-zinc-400">
+                                        <span key={i} className="px-4 py-1.5 bg-zinc-800/80 border border-zinc-700 rounded-full text-xs uppercase tracking-wider text-zinc-300">
                                             {trait}
                                         </span>
                                     ))}
