@@ -9,7 +9,6 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { calculateElement } from "@/lib/elements";
 import { getFortune, getRedactedPreview } from "@/lib/fortunes";
 import SoulCard from "@/components/saja-ui/SoulCard";
-import Footer from "@/components/saja-ui/Footer";
 import { trackUnlockClick } from "@/lib/analytics";
 
 // Map elements to icons
@@ -344,8 +343,6 @@ function ReportContent() {
                             </div>
                         )}
                     </motion.div>
-
-                    <Footer />
                 </div>
             </main>
 
@@ -462,6 +459,23 @@ function ReportContent() {
                             🔒 Secure payment • Instant access • Lifetime reading
                         </p>
                     )}
+
+                    {/* Compact Footer Links */}
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        gap: '12px',
+                        marginTop: '12px',
+                        paddingTop: '10px',
+                        borderTop: '1px solid rgba(255,255,255,0.1)',
+                    }}>
+                        <a href="/terms" style={{ color: '#71717a', fontSize: '10px', textDecoration: 'none' }}>Terms</a>
+                        <span style={{ color: '#3f3f46', fontSize: '10px' }}>|</span>
+                        <a href="/privacy" style={{ color: '#71717a', fontSize: '10px', textDecoration: 'none' }}>Privacy</a>
+                        <span style={{ color: '#3f3f46', fontSize: '10px' }}>|</span>
+                        <span style={{ color: '#52525b', fontSize: '10px' }}>© 2026 SOULFILE</span>
+                    </div>
                 </div>
             </div>
         </div>
