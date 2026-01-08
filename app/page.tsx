@@ -21,9 +21,25 @@ export default function HomePage() {
             transition={{ duration: 0.8 }}
             className="mb-4"
           >
-            <div className="inline-block border border-red-600 px-6 py-2 mb-4">
-              <span className="text-red-600 text-sm uppercase tracking-[0.3em] font-bold">
-                CLASSIFIED
+            <div className="inline-block border-4 border-red-600 px-8 py-3 mb-4 relative"
+              style={{
+                boxShadow: `
+                  0 0 20px rgba(220, 38, 38, 0.8),
+                  0 0 40px rgba(220, 38, 38, 0.5),
+                  inset 0 0 20px rgba(220, 38, 38, 0.2)
+                `,
+                background: 'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(220, 38, 38, 0.1) 10px, rgba(220, 38, 38, 0.1) 20px)'
+              }}
+            >
+              <span className="text-red-500 text-lg sm:text-xl uppercase tracking-[0.4em] font-bold"
+                style={{
+                  textShadow: `
+                    0 0 10px rgba(220, 38, 38, 1),
+                    0 0 20px rgba(220, 38, 38, 0.8)
+                  `
+                }}
+              >
+                ⚠ TOP SECRET ⚠
               </span>
             </div>
           </motion.div>

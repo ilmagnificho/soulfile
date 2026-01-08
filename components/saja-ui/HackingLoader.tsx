@@ -49,7 +49,11 @@ export default function HackingLoader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] bg-zinc-950 w-full h-full flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[99999] w-screen h-screen flex items-center justify-center overflow-hidden"
+            style={{
+                backgroundColor: '#000000',
+                opacity: 1,
+            }}
         >
             {/* Matrix Code Rain Background */}
             <div className="absolute inset-0 overflow-hidden opacity-20">

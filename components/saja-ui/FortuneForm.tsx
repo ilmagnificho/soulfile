@@ -17,12 +17,14 @@ export default function FortuneForm() {
     const [hasAcceptedDisclaimer, setHasAcceptedDisclaimer] = useState(false);
     const router = useRouter();
 
-    // Check localStorage on mount
+    // Check localStorage on mount - DISABLED FOR TESTING
     useEffect(() => {
-        const accepted = localStorage.getItem("saja_disclaimer_accepted");
-        if (accepted === "true") {
-            setHasAcceptedDisclaimer(true);
-        }
+        // const accepted = localStorage.getItem("saja_disclaimer_accepted");
+        // if (accepted === "true") {
+        //     setHasAcceptedDisclaimer(true);
+        // }
+        // ALWAYS SHOW MODAL FOR TESTING
+        setHasAcceptedDisclaimer(false);
     }, []);
 
     // Refs for auto-focus

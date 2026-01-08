@@ -168,15 +168,9 @@ function ReportContent() {
 
                         {/* Basic Info */}
                         <div className="border border-zinc-800 bg-black/50 p-4 sm:p-6 space-y-3">
-                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                <div>
-                                    <p className="text-zinc-500 text-xs uppercase mb-1">Birth Date</p>
-                                    <p className="font-mono text-white">{birthDate}</p>
-                                </div>
-                                <div>
-                                    <p className="text-zinc-500 text-xs uppercase mb-1">Time</p>
-                                    <p className="font-mono text-white">{time}</p>
-                                </div>
+                            <div className="text-sm">
+                                <p className="text-zinc-500 text-xs uppercase mb-1">Birth Date</p>
+                                <p className="font-mono text-white">{birthDate}</p>
                             </div>
                         </div>
                     </motion.div>
