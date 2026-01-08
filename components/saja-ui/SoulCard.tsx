@@ -41,8 +41,8 @@ export default function SoulCard({ name, birthDate, element, elementColor, stats
         try {
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
-                width: 1080,
-                height: 1920,
+                width: 380,
+                height: 640,
                 pixelRatio: 2,
             });
 
@@ -81,8 +81,8 @@ export default function SoulCard({ name, birthDate, element, elementColor, stats
                     ref={cardRef}
                     className={`relative bg-gradient-to-br ${elementGradients[element]} overflow-hidden`}
                     style={{
-                        width: "350px",
-                        height: "600px",
+                        width: "380px",
+                        height: "640px",
                     }}
                 >
                     {/* Holographic overlay effect */}

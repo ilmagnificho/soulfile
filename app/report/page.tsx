@@ -220,16 +220,6 @@ function ReportContent() {
                                 </ResponsiveContainer>
                             </div>
                         </div>
-
-                        {/* Digital Talisman Preview */}
-                        <div className="border border-zinc-800 bg-black/50 p-4 sm:p-6">
-                            <p className="text-zinc-500 text-xs uppercase tracking-wider mb-4 text-center">
-                                Digital Pujeok
-                            </p>
-                            <div className="flex justify-center">
-                                <Talisman element={elementData.element} />
-                            </div>
-                        </div>
                     </motion.div>
                 </div>
 
