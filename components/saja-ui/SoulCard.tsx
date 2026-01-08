@@ -1,284 +1,218 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { motion } from "framer-motion";
-import { Download, Share2 } from "lucide-react";
 import { toPng } from "html-to-image";
+import { Download, Share2 } from "lucide-react";
 
 interface SoulCardProps {
     name: string;
     birthDate: string;
-    element: "fire" | "water" | "wood" | "metal" | "earth";
+    element: "fire" | "water" | "wood" | "metal" | "earth" | string;
 }
 
-const elementColors = {
-    fire: "#DC2626",
-    water: "#2563EB",
-    wood: "#16A34A",
-    metal: "#A1A1AA",
-    earth: "#D97706",
-};
-
-const elementKorean = {
-    fire: "화",
-    water: "수",
-    wood: "목",
-    metal: "금",
-    earth: "토",
+const elementAccents: Record<string, { primary: string; secondary: string; seal: string }> = {
+    fire: { primary: "#D4AF37", secondary: "#B8860B", seal: "火" },
+    water: { primary: "#C0C0C0", secondary: "#A9A9A9", seal: "水" },
+    wood: { primary: "#D4AF37", secondary: "#228B22", seal: "木" },
+    metal: { primary: "#E8E8E8", secondary: "#C0C0C0", seal: "金" },
+    earth: { primary: "#DAA520", secondary: "#B8860B", seal: "土" },
 };
 
 export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
-    const [isDownloading, setIsDownloading] = useState(false);
-    const [isSharing, setIsSharing] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
+    const accent = elementAccents[element] || elementAccents.earth;
 
-    const elementColor = elementColors[element];
-    const hangul = elementKorean[element];
+    const generateCardNumber = () => {
+        const hash = (name + birthDate).split('').reduce((a, b) => a + b.charCodeAt(0), 0);
+        return `${String(hash % 10000).padStart(4, '0')} ${String((hash * 7) % 10000).padStart(4, '0')} ${String((hash * 13) % 10000).padStart(4, '0')} ${String((hash * 17) % 10000).padStart(4, '0')}`;
+    };
 
-    const generateImage = async (): Promise<Blob | null> => {
-        if (!cardRef.current) return null;
-
+    const downloadCard = async () => {
+        if (!cardRef.current) return;
         try {
             const dataUrl = await toPng(cardRef.current, {
-                cacheBust: true,
-                width: 350,
-                height: 550,
-                pixelRatio: 2,
+                quality: 1.0,
+                pixelRatio: 3,
+                backgroundColor: '#0a0a0a',
             });
-
-            const response = await fetch(dataUrl);
-            return await response.blob();
-        } catch (error) {
-            console.error("Failed to generate image:", error);
-            return null;
+            const link = document.createElement("a");
+            link.download = `SOULFILE_${name.replace(/\s/g, '_')}_2026.png`;
+            link.href = dataUrl;
+            link.click();
+        } catch (err) {
+            console.error("Failed to generate card:", err);
         }
     };
 
     const shareCard = async () => {
-        setIsSharing(true);
+        if (!cardRef.current) return;
         try {
-            const blob = await generateImage();
-            if (!blob) throw new Error("Failed to generate image");
-
-            const fileName = `soulfile-${name.replace(/\s+/g, "_")}.png`;
-            const file = new File([blob], fileName, { type: "image/png" });
+            const dataUrl = await toPng(cardRef.current, { quality: 1.0, pixelRatio: 3 });
+            const blob = await (await fetch(dataUrl)).blob();
+            const file = new File([blob], `SOULFILE_${name}_2026.png`, { type: "image/png" });
 
             if (navigator.share && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                     title: "My SOULFILE 2026",
-                    text: `Check out my soul identity: ${element.toUpperCase()} (${hangul})`,
+                    text: `My soul element: ${element.toUpperCase()}`,
                     files: [file],
                 });
             } else {
-                // Fallback to download
-                const link = document.createElement("a");
-                link.download = fileName;
-                link.href = URL.createObjectURL(blob);
-                link.click();
-                URL.revokeObjectURL(link.href);
+                downloadCard();
             }
-        } catch (error) {
-            console.error("Failed to share:", error);
-        } finally {
-            setIsSharing(false);
-        }
-    };
-
-    const downloadCard = async () => {
-        setIsDownloading(true);
-        try {
-            const blob = await generateImage();
-            if (!blob) throw new Error("Failed to generate image");
-
-            const link = document.createElement("a");
-            link.download = `soulfile-${name.replace(/\s+/g, "_")}.png`;
-            link.href = URL.createObjectURL(blob);
-            link.click();
-            URL.revokeObjectURL(link.href);
-        } catch (error) {
-            console.error("Failed to download:", error);
-        } finally {
-            setIsDownloading(false);
+        } catch (err) {
+            downloadCard();
         }
     };
 
     return (
-        <div className="space-y-6">
-            {/* K-Cyber Soul Card */}
-            <div className="flex justify-center">
+        <div className="flex flex-col items-center gap-6">
+            {/* Premium Black Card */}
+            <div
+                ref={cardRef}
+                className="relative w-[350px] h-[220px] rounded-xl overflow-hidden"
+                style={{
+                    background: `linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 50%, #141414 100%)`,
+                    boxShadow: `0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.05)`,
+                }}
+            >
+                {/* Subtle chip texture overlay */}
                 <div
-                    ref={cardRef}
-                    className="relative overflow-hidden"
+                    className="absolute inset-0 opacity-[0.03]"
                     style={{
-                        width: "350px",
-                        height: "550px",
-                        background: `
-                            linear-gradient(135deg, 
-                                ${elementColor}20 0%, 
-                                #000000 50%,
-                                ${elementColor}10 100%
-                            )
-                        `,
-                        border: `2px solid ${elementColor}60`,
+                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+                    }}
+                />
+
+                {/* Card chip */}
+                <div
+                    className="absolute top-6 left-6 w-10 h-8 rounded-sm"
+                    style={{
+                        background: `linear-gradient(135deg, ${accent.primary} 0%, ${accent.secondary} 100%)`,
+                        boxShadow: 'inset 0 1px 2px rgba(255,255,255,0.3)',
                     }}
                 >
-                    {/* Holographic overlay */}
-                    <div
-                        className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none"
-                        style={{
-                            background: `
-                                repeating-linear-gradient(
-                                    45deg,
-                                    transparent,
-                                    transparent 10px,
-                                    rgba(255, 0, 255, 0.1) 10px,
-                                    rgba(255, 0, 255, 0.1) 20px
-                                ),
-                                repeating-linear-gradient(
-                                    -45deg,
-                                    transparent,
-                                    transparent 10px,
-                                    rgba(0, 255, 255, 0.1) 10px,
-                                    rgba(0, 255, 255, 0.1) 20px
-                                )
-                            `,
-                        }}
-                    />
+                    <div className="w-full h-full grid grid-cols-3 gap-[1px] p-[3px]">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <div key={i} className="bg-black/30 rounded-[1px]" />
+                        ))}
+                    </div>
+                </div>
 
-                    {/* Noise texture */}
-                    <div
-                        className="absolute inset-0 opacity-20"
-                        style={{
-                            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
-                        }}
-                    />
+                {/* Top Left - Brand */}
+                <div className="absolute top-6 left-20">
+                    <p
+                        className="text-[10px] font-bold tracking-[0.3em] uppercase"
+                        style={{ color: accent.primary }}
+                    >
+                        SOULFILE
+                    </p>
+                    <p className="text-[7px] text-zinc-600 tracking-widest">INC.</p>
+                </div>
 
-                    {/* Content */}
-                    <div className="relative z-10 h-full flex flex-col p-6">
-                        {/* Header - SIM Card Style */}
-                        <div className="mb-6">
-                            <div className="flex items-center gap-2 mb-2">
-                                <div
-                                    className="w-10 h-10 border-2 grid grid-cols-3 gap-[2px] p-1"
-                                    style={{ borderColor: elementColor }}
-                                >
-                                    {Array.from({ length: 9 }).map((_, i) => (
-                                        <div
-                                            key={i}
-                                            className="rounded-sm"
-                                            style={{ backgroundColor: `${elementColor}80` }}
-                                        />
-                                    ))}
-                                </div>
-                                <div>
-                                    <p className="text-white font-bold text-xs tracking-widest">SOUL IDENTITY</p>
-                                    <p className="text-zinc-500 text-[8px] uppercase tracking-wider">Cyber-Shamanism v2.6</p>
-                                </div>
-                            </div>
-                        </div>
+                {/* Top Right - Access Status */}
+                <div className="absolute top-6 right-6 text-right">
+                    <p className="text-[8px] text-zinc-500 tracking-wider">2026</p>
+                    <p
+                        className="text-[9px] font-semibold tracking-wide"
+                        style={{ color: accent.primary }}
+                    >
+                        ACCESS GRANTED
+                    </p>
+                </div>
 
-                        {/* Large Glowing Hangul */}
-                        <div className="flex-1 flex items-center justify-center">
-                            <div
-                                className="text-[160px] font-bold leading-none"
-                                style={{
-                                    color: elementColor,
-                                    textShadow: `
-                                        0 0 20px ${elementColor}FF,
-                                        0 0 40px ${elementColor}CC,
-                                        0 0 60px ${elementColor}99,
-                                        0 0 80px ${elementColor}66,
-                                        0 0 100px ${elementColor}33
-                                    `,
-                                }}
-                            >
-                                {hangul}
-                            </div>
-                        </div>
+                {/* Center - Card Number */}
+                <div className="absolute top-16 left-6 right-6">
+                    <p
+                        className="font-mono text-lg tracking-[0.2em]"
+                        style={{ color: 'rgba(255,255,255,0.8)' }}
+                    >
+                        {generateCardNumber()}
+                    </p>
+                </div>
 
-                        {/* Info Section */}
-                        <div className="space-y-2">
-                            <div
-                                className="text-center pb-3 mb-3"
-                                style={{ borderBottom: `1px solid ${elementColor}40` }}
-                            >
-                                <p
-                                    className="text-2xl font-bold uppercase mb-1"
-                                    style={{ color: elementColor }}
-                                >
-                                    {element}
-                                </p>
-                                <p className="text-zinc-500 text-xs uppercase tracking-wider">Primary Element</p>
-                            </div>
-
-                            <div className="space-y-1 text-xs">
-                                <div className="flex justify-between">
-                                    <span className="text-zinc-600 uppercase">Subject:</span>
-                                    <span className="text-zinc-300 text-right">{name}</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-zinc-600 uppercase">Birth:</span>
-                                    <span className="text-zinc-300">{birthDate}</span>
-                                </div>
-                            </div>
-
-                            {/* Barcode visualization */}
-                            <div className="flex gap-[1px] h-6 mt-3">
-                                {Array.from({ length: 50 }).map((_, i) => (
-                                    <div
-                                        key={i}
-                                        className="flex-1"
-                                        style={{
-                                            backgroundColor: elementColor,
-                                            opacity: Math.random() > 0.5 ? 0.8 : 0.2,
-                                        }}
-                                    />
-                                ))}
-                            </div>
-                            <p className="text-center text-[8px] text-zinc-600 uppercase tracking-widest mt-1">
-                                SOULFILE-2026-ID
-                            </p>
-                        </div>
+                {/* Bottom Section */}
+                <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                    {/* Name & Element */}
+                    <div>
+                        <p className="text-[9px] text-zinc-600 uppercase tracking-wider mb-1">Subject</p>
+                        <p
+                            className="text-sm font-semibold uppercase tracking-wide"
+                            style={{ color: 'rgba(255,255,255,0.9)' }}
+                        >
+                            {name}
+                        </p>
+                        <p
+                            className="text-[10px] uppercase tracking-[0.2em] mt-1"
+                            style={{ color: accent.primary }}
+                        >
+                            {element} Element
+                        </p>
                     </div>
 
-                    {/* Corner accents */}
+                    {/* Seal */}
                     <div
-                        className="absolute top-0 right-0 w-20 h-20 opacity-30"
+                        className="w-12 h-12 rounded-full border-2 flex items-center justify-center"
                         style={{
-                            background: `linear-gradient(135deg, transparent 50%, ${elementColor} 50%)`,
+                            borderColor: `${accent.primary}40`,
+                            background: `linear-gradient(145deg, rgba(0,0,0,0.5), rgba(20,20,20,0.8))`,
                         }}
-                    />
-                    <div
-                        className="absolute bottom-0 left-0 w-20 h-20 opacity-30"
-                        style={{
-                            background: `linear-gradient(-45deg, transparent 50%, ${elementColor} 50%)`,
-                        }}
-                    />
+                    >
+                        <span
+                            className="text-xl font-bold"
+                            style={{
+                                color: accent.primary,
+                                textShadow: `0 0 10px ${accent.primary}40`,
+                            }}
+                        >
+                            {accent.seal}
+                        </span>
+                    </div>
                 </div>
+
+                {/* Barcode at bottom edge */}
+                <div className="absolute bottom-0 left-0 right-0 h-6 flex items-center justify-center gap-[1px] px-6 bg-black/50">
+                    {Array.from({ length: 40 }).map((_, i) => (
+                        <div
+                            key={i}
+                            className="h-3"
+                            style={{
+                                width: Math.random() > 0.5 ? '2px' : '1px',
+                                backgroundColor: `rgba(255,255,255,${0.2 + Math.random() * 0.3})`,
+                            }}
+                        />
+                    ))}
+                </div>
+
+                {/* Holographic line accent */}
+                <div
+                    className="absolute top-0 left-0 right-0 h-[1px]"
+                    style={{
+                        background: `linear-gradient(90deg, transparent, ${accent.primary}60, transparent)`,
+                    }}
+                />
             </div>
 
             {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-3">
+            <div className="flex gap-4">
                 <motion.button
                     onClick={shareCard}
-                    disabled={isSharing}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-zinc-800 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider transition-all border border-purple-500 disabled:border-zinc-700 flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 text-sm hover:bg-zinc-800 hover:border-zinc-600 transition-all"
                 >
                     <Share2 className="w-4 h-4" />
-                    {isSharing ? "Sharing..." : "Share"}
+                    SHARE
                 </motion.button>
-
                 <motion.button
                     onClick={downloadCard}
-                    disabled={isDownloading}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-900 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider transition-all border border-zinc-700 disabled:border-zinc-800 flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 text-sm hover:bg-zinc-800 hover:border-zinc-600 transition-all"
                 >
                     <Download className="w-4 h-4" />
-                    {isDownloading ? "Downloading..." : "Download"}
+                    DOWNLOAD
                 </motion.button>
             </div>
         </div>
