@@ -196,37 +196,54 @@ function ReportContent() {
 
                         {!isUnlocked ? (
                             /* LOCKED STATE - Teaser */
-                            <div className="space-y-6">
+                            <div className="space-y-5">
                                 {/* Danger Preview (Redacted) */}
-                                <div className="bg-red-950/20 border border-red-900/50 p-4 sm:p-6">
+                                <div className="bg-red-950/30 border border-red-900/50 p-4 sm:p-6 rounded-lg">
                                     <div className="flex items-center gap-2 mb-3">
-                                        <Lock className="w-4 h-4 text-red-500" />
-                                        <p className="text-red-500 text-sm font-bold uppercase">Critical Warning Detected</p>
+                                        <AlertTriangle className="w-5 h-5 text-red-500 animate-pulse" />
+                                        <p className="text-red-500 text-sm font-bold uppercase">⚠️ Critical Warning Detected</p>
                                     </div>
                                     <p className="text-zinc-400 text-sm leading-relaxed">
                                         {preview.danger}
                                     </p>
+                                    <p className="text-red-400/60 text-xs mt-3 italic">
+                                        Full analysis required to understand impact on your 2026...
+                                    </p>
                                 </div>
 
-                                {/* Locked Sections Preview */}
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                    {[
-                                        { icon: TrendingUp, label: "Wealth", color: "text-yellow-500" },
-                                        { icon: Heart, label: "Love", color: "text-pink-500" },
-                                        { icon: Shield, label: "Health", color: "text-green-500" },
-                                        { icon: Calendar, label: "Lucky Dates", color: "text-blue-500" },
-                                    ].map((item, i) => (
-                                        <div key={i} className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
-                                            <item.icon className={`w-6 h-6 mx-auto mb-2 ${item.color} opacity-50`} />
-                                            <p className="text-zinc-500 text-xs uppercase">{item.label}</p>
-                                            <p className="text-zinc-700 text-lg mt-1">■■■■</p>
-                                        </div>
-                                    ))}
+                                {/* What You'll Unlock - More specific hooks */}
+                                <div className="bg-zinc-900/50 border border-zinc-800 p-4 sm:p-5 rounded-lg">
+                                    <p className="text-zinc-300 text-sm font-semibold mb-4 text-center">
+                                        🔮 Your Complete 2026 Reading Includes:
+                                    </p>
+                                    <div className="space-y-3">
+                                        {[
+                                            { icon: TrendingUp, label: "Money Moves", desc: "Best months to invest & avoid", color: "text-yellow-500" },
+                                            { icon: Heart, label: "Love Timeline", desc: "When you'll meet someone special", color: "text-pink-500" },
+                                            { icon: Shield, label: "Health Alerts", desc: "Specific dates to watch out for", color: "text-green-500" },
+                                            { icon: Calendar, label: "Lucky Dates", desc: "Your power days in 2026", color: "text-blue-500" },
+                                        ].map((item, i) => (
+                                            <div key={i} className="flex items-center gap-3 p-2 rounded-lg bg-zinc-800/50">
+                                                <item.icon className={`w-5 h-5 ${item.color} flex-shrink-0`} />
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-zinc-300 text-sm font-medium">{item.label}</p>
+                                                    <p className="text-zinc-500 text-xs truncate">{item.desc}</p>
+                                                </div>
+                                                <Lock className="w-3.5 h-3.5 text-zinc-600" />
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
 
-                                <p className="text-zinc-600 text-xs text-center">
-                                    Decrypt to reveal complete 2026 wealth, love, health analysis and lucky dates
-                                </p>
+                                {/* Social proof / urgency */}
+                                <div className="text-center space-y-2">
+                                    <p className="text-zinc-500 text-xs">
+                                        🌟 <span className="text-zinc-400">2,847 people</span> decrypted their soulfile today
+                                    </p>
+                                    <p className="text-zinc-600 text-[10px]">
+                                        Limited time: 50% off for first reading
+                                    </p>
+                                </div>
                             </div>
                         ) : (
                             /* UNLOCKED STATE - Full Content */
@@ -332,71 +349,120 @@ function ReportContent() {
                 </div>
             </main>
 
-            {/* 🔥 GLASSMORPHISM FLOATING DECRYPT BAR 🔥 */}
+            {/* 🔥 PREMIUM FLOATING DECRYPT BAR 🔥 */}
             <div
                 style={{
                     position: 'fixed',
-                    bottom: '16px',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
                     zIndex: 999999,
-                    width: 'calc(100% - 32px)',
-                    maxWidth: '500px',
+                    padding: '16px',
+                    paddingBottom: '24px',
+                    background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 60%, transparent 100%)',
                 }}
             >
-                <motion.button
-                    onClick={handleUnlock}
-                    disabled={isProcessingPayment || isUnlocked}
-                    whileHover={!isProcessingPayment && !isUnlocked ? { scale: 1.02 } : {}}
-                    whileTap={!isProcessingPayment && !isUnlocked ? { scale: 0.98 } : {}}
-                    animate={!isProcessingPayment && !isUnlocked ? {
-                        boxShadow: [
-                            "0 0 20px rgba(220, 38, 38, 0.3), 0 0 40px rgba(234, 179, 8, 0.1)",
-                            "0 0 30px rgba(220, 38, 38, 0.5), 0 0 60px rgba(234, 179, 8, 0.2)",
-                            "0 0 20px rgba(220, 38, 38, 0.3), 0 0 40px rgba(234, 179, 8, 0.1)",
-                        ],
-                    } : {}}
-                    transition={{
-                        boxShadow: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-                    }}
-                    style={{
-                        width: '100%',
-                        padding: '16px 24px',
-                        background: isUnlocked
-                            ? 'rgba(34, 197, 94, 0.1)'
-                            : 'rgba(0, 0, 0, 0.8)',
-                        backdropFilter: 'blur(16px)',
-                        border: isUnlocked
-                            ? '1px solid rgba(34, 197, 94, 0.3)'
-                            : '1px solid rgba(255, 255, 255, 0.1)',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        gap: '12px',
-                        cursor: isProcessingPayment || isUnlocked ? 'default' : 'pointer',
-                        transition: 'all 0.3s ease',
-                    }}
-                >
-                    {isUnlocked ? (
-                        <span className="text-green-400 font-semibold text-sm tracking-wide">
-                            ✓ DECRYPTED — SCROLL UP TO VIEW
-                        </span>
-                    ) : isProcessingPayment ? (
-                        <>
-                            <Loader2 className="w-4 h-4 text-zinc-400 animate-spin" />
-                            <span className="text-zinc-400 font-medium text-sm">DECRYPTING...</span>
-                        </>
-                    ) : (
-                        <>
-                            <Lock className="w-4 h-4 text-red-400" />
-                            <span className="text-white font-semibold text-sm tracking-wide">
-                                DECRYPT SOULFILE 2026
+                <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+                    <motion.button
+                        onClick={handleUnlock}
+                        disabled={isProcessingPayment || isUnlocked}
+                        whileHover={!isProcessingPayment && !isUnlocked ? { scale: 1.03, y: -2 } : {}}
+                        whileTap={!isProcessingPayment && !isUnlocked ? { scale: 0.97 } : {}}
+                        style={{
+                            width: '100%',
+                            padding: '18px 28px',
+                            background: isUnlocked
+                                ? 'linear-gradient(135deg, #059669 0%, #047857 100%)'
+                                : isProcessingPayment
+                                    ? 'linear-gradient(135deg, #374151 0%, #1f2937 100%)'
+                                    : 'linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%)',
+                            border: 'none',
+                            borderRadius: '16px',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '4px',
+                            cursor: isProcessingPayment || isUnlocked ? 'default' : 'pointer',
+                            boxShadow: isUnlocked
+                                ? '0 10px 40px rgba(5, 150, 105, 0.4)'
+                                : isProcessingPayment
+                                    ? 'none'
+                                    : '0 10px 40px rgba(220, 38, 38, 0.5), 0 0 0 1px rgba(255,255,255,0.1)',
+                            transition: 'all 0.3s ease',
+                        }}
+                    >
+                        {isUnlocked ? (
+                            <>
+                                <span style={{ color: 'white', fontWeight: 700, fontSize: '15px', letterSpacing: '0.05em' }}>
+                                    ✓ DECRYPTED SUCCESSFULLY
+                                </span>
+                                <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '11px' }}>
+                                    Scroll up to view your complete reading
+                                </span>
+                            </>
+                        ) : isProcessingPayment ? (
+                            <span style={{
+                                color: 'white',
+                                fontWeight: 600,
+                                fontSize: '14px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '10px',
+                            }}>
+                                <Loader2 className="w-5 h-5 animate-spin" />
+                                DECRYPTING YOUR DESTINY...
                             </span>
-                            <span className="text-zinc-500 text-xs ml-2">$4.99</span>
-                        </>
+                        ) : (
+                            <>
+                                <span style={{
+                                    color: 'white',
+                                    fontWeight: 800,
+                                    fontSize: '16px',
+                                    letterSpacing: '0.05em',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '8px',
+                                }}>
+                                    <Lock className="w-4 h-4" />
+                                    UNLOCK FULL 2026 READING
+                                </span>
+                                <span style={{
+                                    color: 'rgba(255,255,255,0.8)',
+                                    fontSize: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                }}>
+                                    <span style={{ textDecoration: 'line-through', opacity: 0.6 }}>$9.99</span>
+                                    <span style={{ fontWeight: 700, color: '#fbbf24' }}>$4.99</span>
+                                    <span style={{
+                                        background: '#fbbf24',
+                                        color: 'black',
+                                        padding: '2px 6px',
+                                        borderRadius: '4px',
+                                        fontSize: '10px',
+                                        fontWeight: 700,
+                                        marginLeft: '4px',
+                                    }}>
+                                        50% OFF
+                                    </span>
+                                </span>
+                            </>
+                        )}
+                    </motion.button>
+
+                    {!isUnlocked && !isProcessingPayment && (
+                        <p style={{
+                            color: '#71717a',
+                            fontSize: '10px',
+                            textAlign: 'center',
+                            marginTop: '8px',
+                        }}>
+                            🔒 Secure payment • Instant access • Lifetime reading
+                        </p>
                     )}
-                </motion.button>
+                </div>
             </div>
         </div>
     );
