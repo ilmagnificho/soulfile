@@ -9,6 +9,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { calculateElement } from "@/lib/elements";
 import { getFortune, getRedactedPreview } from "@/lib/fortunes";
 import SoulCard from "@/components/saja-ui/SoulCard";
+import Footer from "@/components/saja-ui/Footer";
 import { trackUnlockClick, trackPageView, trackEvent } from "@/lib/analytics";
 
 // Map elements to icons
@@ -355,6 +356,7 @@ function ReportContent() {
                                 </div>
                             </div>
                         )}
+                        <Footer />
                     </motion.div>
                 </div>
             </main>
