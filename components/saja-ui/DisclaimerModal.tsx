@@ -26,7 +26,7 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-[99999] w-screen h-screen flex items-center justify-center p-4"
+                    className="fixed inset-0 z-[99999] w-full h-[100dvh] flex items-center justify-center p-4 overflow-hidden"
                     style={{
                         backgroundColor: '#000000',
                         opacity: 1,

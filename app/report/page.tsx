@@ -346,9 +346,9 @@ function ReportContent() {
                                     <p className="text-zinc-300 text-sm leading-relaxed">
                                         {fortune.talisman}
                                     </p>
-                                    <div className="mt-3 flex gap-2">
+                                    <div className="mt-4 flex flex-wrap gap-2">
                                         {fortune.lucky_colors.map((color, i) => (
-                                            <span key={i} className="px-2 py-1 bg-purple-900/30 text-purple-400 text-xs">
+                                            <span key={i} className="px-3 py-1 bg-purple-900/40 border border-purple-700/50 text-purple-300 text-xs rounded-full font-medium">
                                                 {color}
                                             </span>
                                         ))}
