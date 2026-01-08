@@ -85,7 +85,7 @@ export default function TermsPage() {
                     <section>
                         <h2 className="text-xl font-bold text-red-400 uppercase mb-4">7. Contact</h2>
                         <p className="text-zinc-300 leading-relaxed">
-                            For questions about these terms, contact: <a href="mailto:contact@soulfile.xyz" className="text-red-500 hover:text-red-400">contact@soulfile.xyz</a>
+                            For questions about these terms, contact: <a href="mailto:info@tetracorp.co.kr" className="text-red-500 hover:text-red-400">info@tetracorp.co.kr</a>
                         </p>
                     </section>
                 </div>

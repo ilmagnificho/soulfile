@@ -10,6 +10,7 @@ import { calculateElement } from "@/lib/elements";
 import Talisman from "@/components/saja-ui/Talisman";
 import SoulCard from "@/components/saja-ui/SoulCard";
 import Footer from "@/components/saja-ui/Footer";
+import { trackUnlockClick } from "@/lib/analytics";
 
 // Map elements to icons
 const elementIcons = {
@@ -45,6 +46,9 @@ function ReportContent() {
 
     // MVP Simulated Payment - Dark Pattern Test
     const handleUnlock = async () => {
+        // Track analytics BEFORE processing
+        trackUnlockClick(elementData.element, birthDate);
+
         setIsProcessingPayment(true);
 
         // Simulate payment processing (2 second delay)
@@ -337,51 +341,37 @@ function ReportContent() {
                             )}
                         </div>
 
-                        {/* Payment Button - Sticky on Mobile */}
-                        <div className="fixed md:relative bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto z-50 md:z-auto bg-black md:bg-transparent p-4 md:p-0 border-t md:border-t-0 border-zinc-800">
-                            <motion.button
-                                onClick={handleUnlock}
-                                disabled={isProcessingPayment || isUnlocked}
-                                whileHover={!isProcessingPayment && !isUnlocked ? { scale: 1.08, rotate: 1 } : {}}
-                                whileTap={!isProcessingPayment && !isUnlocked ? { scale: 0.92 } : {}}
-                                animate={!isProcessingPayment && !isUnlocked ? {
-                                    boxShadow: [
-                                        "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                        "0 0 50px rgba(220, 38, 38, 1), 0 0 100px rgba(220, 38, 38, 0.7), 0 0 150px rgba(220, 38, 38, 0.4)",
-                                        "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                    ],
-                                    scale: [1, 1.03, 1]
-                                } : {}}
-                                transition={{
-                                    boxShadow: {
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: "easeInOut"
-                                    },
-                                    scale: {
-                                        duration: 2,
-                                        repeat: Infinity,
-                                        ease: "easeInOut"
-                                    }
-                                }}
-                                className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
-                                style={!isProcessingPayment && !isUnlocked ? { willChange: "transform, box-shadow" } : {}}
-                            >
-                                {isUnlocked ? (
-                                    "✅ UNLOCKED"
-                                ) : isProcessingPayment ? (
-                                    <>
-                                        <Loader2 className="w-5 h-5 animate-spin" />
-                                        Processing...
-                                    </>
-                                ) : (
-                                    "🔓 UNLOCK SOULFILE 2026 ($4.99)"
-                                )}
-                            </motion.button>
+                        {/* Payment Button - FORCED VISIBILITY with z-[9999] */}
+                        <div className="fixed bottom-0 left-0 w-full z-[9999] p-4 bg-gradient-to-t from-black via-black/95 to-transparent pointer-events-none">
+                            <div className="pointer-events-auto max-w-4xl mx-auto">
+                                <motion.button
+                                    onClick={handleUnlock}
+                                    disabled={isProcessingPayment || isUnlocked}
+                                    whileHover={!isProcessingPayment && !isUnlocked ? { scale: 1.05 } : {}}
+                                    whileTap={!isProcessingPayment && !isUnlocked ? { scale: 0.95 } : {}}
+                                    className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 py-5 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3 shadow-2xl"
+                                    style={{
+                                        boxShadow: !isProcessingPayment && !isUnlocked
+                                            ? "0 0 40px rgba(234, 179, 8, 0.6), 0 0 80px rgba(234, 179, 8, 0.3)"
+                                            : "none"
+                                    }}
+                                >
+                                    {isUnlocked ? (
+                                        "✅ UNLOCKED - SCROLL TO VIEW"
+                                    ) : isProcessingPayment ? (
+                                        <>
+                                            <Loader2 className="w-5 h-5 animate-spin" />
+                                            Processing Payment...
+                                        </>
+                                    ) : (
+                                        "🔓 UNLOCK FULL SOULFILE ($4.99)"
+                                    )}
+                                </motion.button>
 
-                            <p className="text-zinc-600 text-xs mt-4 text-center">
-                                {isUnlocked ? "Thank you! Enjoy your full report." : "Secure checkout • 100% satisfaction guaranteed"}
-                            </p>
+                                <p className="text-zinc-500 text-xs mt-2 text-center">
+                                    {isUnlocked ? "Enjoy your complete analysis above ↑" : "MVP Test: Auto-unlocks after 2s"}
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </motion.div>

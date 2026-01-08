@@ -22,7 +22,7 @@ export default function Footer() {
                         </Link>
                         <span className="text-zinc-700">|</span>
                         <a
-                            href="mailto:contact@soulfile.xyz"
+                            href="mailto:info@tetracorp.co.kr"
                             className="text-zinc-500 hover:text-zinc-300 transition-colors"
                         >
                             Contact

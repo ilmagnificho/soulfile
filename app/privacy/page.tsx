@@ -126,7 +126,7 @@ export default function PrivacyPage() {
                     <section>
                         <h2 className="text-xl font-bold text-purple-400 uppercase mb-4">9. Contact Us</h2>
                         <p className="text-zinc-300 leading-relaxed">
-                            For privacy-related questions or concerns, contact: <a href="mailto:contact@soulfile.xyz" className="text-purple-500 hover:text-purple-400">contact@soulfile.xyz</a>
+                            For privacy-related questions or concerns, contact: <a href="mailto:info@tetracorp.co.kr" className="text-purple-500 hover:text-purple-400">info@tetracorp.co.kr</a>
                         </p>
                     </section>
                 </div>
