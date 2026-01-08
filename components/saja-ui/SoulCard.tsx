@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Download } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 import { toPng } from "html-to-image";
 
 interface SoulCardProps {
@@ -29,12 +29,15 @@ const elementKorean = {
 
 export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
     const [isDownloading, setIsDownloading] = useState(false);
+    const [isSharing, setIsSharing] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
-    const downloadCard = async () => {
-        if (!cardRef.current) return;
+    const elementColor = elementColors[element];
+    const hangul = elementKorean[element];
 
-        setIsDownloading(true);
+    const generateImage = async (): Promise<Blob | null> => {
+        if (!cardRef.current) return null;
+
         try {
             const dataUrl = await toPng(cardRef.current, {
                 cacheBust: true,
@@ -43,150 +46,241 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
                 pixelRatio: 2,
             });
 
-            const link = document.createElement("a");
-            link.download = `soulfile-${name.replace(/\\s+/g, "_")}.png`;
-            link.href = dataUrl;
-            link.click();
+            const response = await fetch(dataUrl);
+            return await response.blob();
         } catch (error) {
-            console.error("Failed to download Soul Card:", error);
+            console.error("Failed to generate image:", error);
+            return null;
+        }
+    };
+
+    const shareCard = async () => {
+        setIsSharing(true);
+        try {
+            const blob = await generateImage();
+            if (!blob) throw new Error("Failed to generate image");
+
+            const fileName = `soulfile-${name.replace(/\s+/g, "_")}.png`;
+            const file = new File([blob], fileName, { type: "image/png" });
+
+            if (navigator.share && navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                    title: "My SOULFILE 2026",
+                    text: `Check out my soul identity: ${element.toUpperCase()} (${hangul})`,
+                    files: [file],
+                });
+            } else {
+                // Fallback to download
+                const link = document.createElement("a");
+                link.download = fileName;
+                link.href = URL.createObjectURL(blob);
+                link.click();
+                URL.revokeObjectURL(link.href);
+            }
+        } catch (error) {
+            console.error("Failed to share:", error);
+        } finally {
+            setIsSharing(false);
+        }
+    };
+
+    const downloadCard = async () => {
+        setIsDownloading(true);
+        try {
+            const blob = await generateImage();
+            if (!blob) throw new Error("Failed to generate image");
+
+            const link = document.createElement("a");
+            link.download = `soulfile-${name.replace(/\s+/g, "_")}.png`;
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+        } catch (error) {
+            console.error("Failed to download:", error);
         } finally {
             setIsDownloading(false);
         }
     };
 
-    const elementColor = elementColors[element];
-
     return (
         <div className="space-y-6">
-            {/* Confidential File Card */}
+            {/* K-Cyber Soul Card */}
             <div className="flex justify-center">
                 <div
                     ref={cardRef}
-                    className="relative overflow-hidden font-mono"
+                    className="relative overflow-hidden"
                     style={{
                         width: "350px",
                         height: "550px",
-                        backgroundColor: "#18181b", // Dark grey file folder
-                        border: "2px solid #3f3f46",
+                        background: `
+                            linear-gradient(135deg, 
+                                ${elementColor}20 0%, 
+                                #000000 50%,
+                                ${elementColor}10 100%
+                            )
+                        `,
+                        border: `2px solid ${elementColor}60`,
                     }}
                 >
-                    {/* Paper texture overlay */}
+                    {/* Holographic overlay */}
                     <div
-                        className="absolute inset-0 opacity-5"
+                        className="absolute inset-0 opacity-30 mix-blend-overlay pointer-events-none"
+                        style={{
+                            background: `
+                                repeating-linear-gradient(
+                                    45deg,
+                                    transparent,
+                                    transparent 10px,
+                                    rgba(255, 0, 255, 0.1) 10px,
+                                    rgba(255, 0, 255, 0.1) 20px
+                                ),
+                                repeating-linear-gradient(
+                                    -45deg,
+                                    transparent,
+                                    transparent 10px,
+                                    rgba(0, 255, 255, 0.1) 10px,
+                                    rgba(0, 255, 255, 0.1) 20px
+                                )
+                            `,
+                        }}
+                    />
+
+                    {/* Noise texture */}
+                    <div
+                        className="absolute inset-0 opacity-20"
                         style={{
                             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='3.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
                         }}
                     />
 
                     {/* Content */}
-                    <div className="relative z-10 h-full flex flex-col p-8 text-zinc-300">
-                        {/* Top Bar with File Number */}
-                        <div className="border-b border-zinc-700 pb-4 mb-6">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-[10px] text-zinc-600 uppercase tracking-widest">Classification Level</p>
-                                    <p className="text-xs text-zinc-400 mt-1">TOP SECRET</p>
-                                </div>
-                                {/* CONFIDENTIAL Stamp */}
+                    <div className="relative z-10 h-full flex flex-col p-6">
+                        {/* Header - SIM Card Style */}
+                        <div className="mb-6">
+                            <div className="flex items-center gap-2 mb-2">
                                 <div
-                                    className="border-2 border-red-600 px-3 py-1 transform rotate-12"
-                                    style={{
-                                        boxShadow: 'inset 0 0 10px rgba(220, 38, 38, 0.3)',
-                                    }}
+                                    className="w-10 h-10 border-2 grid grid-cols-3 gap-[2px] p-1"
+                                    style={{ borderColor: elementColor }}
                                 >
-                                    <span className="text-red-600 text-xs font-bold uppercase tracking-wider">CONFIDENTIAL</span>
+                                    {Array.from({ length: 9 }).map((_, i) => (
+                                        <div
+                                            key={i}
+                                            className="rounded-sm"
+                                            style={{ backgroundColor: `${elementColor}80` }}
+                                        />
+                                    ))}
+                                </div>
+                                <div>
+                                    <p className="text-white font-bold text-xs tracking-widest">SOUL IDENTITY</p>
+                                    <p className="text-zinc-500 text-[8px] uppercase tracking-wider">Cyber-Shamanism v2.6</p>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Header */}
-                        <div className="text-center mb-6 border-b border-zinc-800 pb-4">
-                            <h1 className="text-lg font-bold tracking-widest text-white mb-1">SOULFILE ARCHIVES</h1>
-                            <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Netherworld Database v2.6</p>
-                        </div>
-
-                        {/* Subject Information */}
-                        <div className="space-y-3 mb-6">
-                            <div className="flex">
-                                <span className="text-xs text-zinc-600 w-20 uppercase">Subject:</span>
-                                <span className="text-xs text-white flex-1 uppercase">{name}</span>
-                            </div>
-                            <div className="flex">
-                                <span className="text-xs text-zinc-600 w-20 uppercase">DOB:</span>
-                                <span className="text-xs text-white flex-1">{birthDate}</span>
-                            </div>
-                            <div className="flex">
-                                <span className="text-xs text-zinc-600 w-20 uppercase">File No:</span>
-                                <span className="text-xs text-white flex-1">SF-{birthDate.replace(/-/g, "")}-{Math.random().toString(36).substr(2, 6).toUpperCase()}</span>
-                            </div>
-                        </div>
-
-                        {/* Core Element Section - Large */}
-                        <div className="flex-1 flex flex-col items-center justify-center border-t border-b border-zinc-800 py-6 my-4">
-                            <p className="text-[10px] text-zinc-600 uppercase tracking-widest mb-3">Core Element Classification</p>
-
-                            {/* Large Element Character */}
+                        {/* Large Glowing Hangul */}
+                        <div className="flex-1 flex items-center justify-center">
                             <div
-                                className="text-8xl font-bold mb-2"
-                                style={{ color: elementColor }}
+                                className="text-[160px] font-bold leading-none"
+                                style={{
+                                    color: elementColor,
+                                    textShadow: `
+                                        0 0 20px ${elementColor}FF,
+                                        0 0 40px ${elementColor}CC,
+                                        0 0 60px ${elementColor}99,
+                                        0 0 80px ${elementColor}66,
+                                        0 0 100px ${elementColor}33
+                                    `,
+                                }}
                             >
-                                {elementKorean[element]}
+                                {hangul}
                             </div>
+                        </div>
 
-                            <div className="text-center">
+                        {/* Info Section */}
+                        <div className="space-y-2">
+                            <div
+                                className="text-center pb-3 mb-3"
+                                style={{ borderBottom: `1px solid ${elementColor}40` }}
+                            >
                                 <p
                                     className="text-2xl font-bold uppercase mb-1"
                                     style={{ color: elementColor }}
                                 >
                                     {element}
                                 </p>
-                                <p className="text-[10px] text-zinc-500 uppercase tracking-wider">Primary Designation</p>
+                                <p className="text-zinc-500 text-xs uppercase tracking-wider">Primary Element</p>
                             </div>
 
-                            {/* Redaction bars for style */}
-                            <div className="mt-4 w-full space-y-1">
-                                <div className="h-2 bg-black w-3/4 mx-auto"></div>
-                                <div className="h-2 bg-black w-1/2 mx-auto"></div>
+                            <div className="space-y-1 text-xs">
+                                <div className="flex justify-between">
+                                    <span className="text-zinc-600 uppercase">Subject:</span>
+                                    <span className="text-zinc-300 text-right">{name}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-zinc-600 uppercase">Birth:</span>
+                                    <span className="text-zinc-300">{birthDate}</span>
+                                </div>
                             </div>
-                        </div>
 
-                        {/* Barcode Footer */}
-                        <div className="mt-auto">
-                            <div className="flex justify-between items-center text-[9px] text-zinc-600 mb-2">
-                                <span>AUTH: SYSTEM</span>
-                                <span>ENC: AES-256</span>
-                            </div>
-                            {/* Barcode effect */}
-                            <div className="flex gap-[2px] h-8">
-                                {Array.from({ length: 40 }).map((_, i) => (
+                            {/* Barcode visualization */}
+                            <div className="flex gap-[1px] h-6 mt-3">
+                                {Array.from({ length: 50 }).map((_, i) => (
                                     <div
                                         key={i}
-                                        className="flex-1 bg-zinc-700"
+                                        className="flex-1"
                                         style={{
-                                            opacity: Math.random() > 0.5 ? 1 : 0.3,
+                                            backgroundColor: elementColor,
+                                            opacity: Math.random() > 0.5 ? 0.8 : 0.2,
                                         }}
                                     />
                                 ))}
                             </div>
-                            <p className="text-center text-[8px] text-zinc-600 mt-1 uppercase tracking-widest">
-                                SOULFILE-2026-{birthDate.slice(0, 4)}
+                            <p className="text-center text-[8px] text-zinc-600 uppercase tracking-widest mt-1">
+                                SOULFILE-2026-ID
                             </p>
                         </div>
                     </div>
+
+                    {/* Corner accents */}
+                    <div
+                        className="absolute top-0 right-0 w-20 h-20 opacity-30"
+                        style={{
+                            background: `linear-gradient(135deg, transparent 50%, ${elementColor} 50%)`,
+                        }}
+                    />
+                    <div
+                        className="absolute bottom-0 left-0 w-20 h-20 opacity-30"
+                        style={{
+                            background: `linear-gradient(-45deg, transparent 50%, ${elementColor} 50%)`,
+                        }}
+                    />
                 </div>
             </div>
 
-            {/* Download Button */}
-            <motion.button
-                onClick={downloadCard}
-                disabled={isDownloading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-red-900 hover:bg-red-800 disabled:bg-zinc-800 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider transition-all border border-red-700 disabled:border-zinc-700 flex items-center justify-center gap-2"
-            >
-                <Download className="w-4 h-4" />
-                {isDownloading ? "Generating..." : "📥 Download Soul File"}
-            </motion.button>
+            {/* Action Buttons */}
+            <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                    onClick={shareCard}
+                    disabled={isSharing}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-zinc-800 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider transition-all border border-purple-500 disabled:border-zinc-700 flex items-center justify-center gap-2"
+                >
+                    <Share2 className="w-4 h-4" />
+                    {isSharing ? "Sharing..." : "Share"}
+                </motion.button>
+
+                <motion.button
+                    onClick={downloadCard}
+                    disabled={isDownloading}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-900 text-white py-3 px-6 text-sm font-bold uppercase tracking-wider transition-all border border-zinc-700 disabled:border-zinc-800 flex items-center justify-center gap-2"
+                >
+                    <Download className="w-4 h-4" />
+                    {isDownloading ? "Downloading..." : "Download"}
+                </motion.button>
+            </div>
         </div>
     );
 }
