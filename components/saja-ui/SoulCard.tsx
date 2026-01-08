@@ -3,7 +3,7 @@
 import { useRef, useMemo } from "react";
 import { motion } from "framer-motion";
 import { toPng } from "html-to-image";
-import { Download, Share2, Sparkles } from "lucide-react";
+import { Download, Share2 } from "lucide-react";
 
 interface SoulCardProps {
     name: string;
@@ -12,44 +12,38 @@ interface SoulCardProps {
 }
 
 const elementStyles: Record<string, {
-    gradient: string;
     accent: string;
-    glow: string;
+    bgGradient: string;
     seal: string;
     symbol: string;
 }> = {
     fire: {
-        gradient: "from-red-900/30 via-orange-900/20 to-amber-900/10",
         accent: "#FF6B35",
-        glow: "rgba(255,107,53,0.5)",
+        bgGradient: "linear-gradient(135deg, #1a0a0a 0%, #2d1010 50%, #1a0808 100%)",
         seal: "火",
         symbol: "🔥"
     },
     water: {
-        gradient: "from-blue-900/30 via-cyan-900/20 to-teal-900/10",
         accent: "#00D4FF",
-        glow: "rgba(0,212,255,0.5)",
+        bgGradient: "linear-gradient(135deg, #0a1a1f 0%, #0d2535 50%, #081520 100%)",
         seal: "水",
         symbol: "🌊"
     },
     wood: {
-        gradient: "from-green-900/30 via-emerald-900/20 to-teal-900/10",
         accent: "#4ADE80",
-        glow: "rgba(74,222,128,0.5)",
+        bgGradient: "linear-gradient(135deg, #0a1a10 0%, #102d15 50%, #081a0d 100%)",
         seal: "木",
         symbol: "🌲"
     },
     metal: {
-        gradient: "from-zinc-700/30 via-slate-800/20 to-gray-900/10",
-        accent: "#E2E8F0",
-        glow: "rgba(226,232,240,0.5)",
+        accent: "#C0C0C0",
+        bgGradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #151515 100%)",
         seal: "金",
         symbol: "⚔️"
     },
     earth: {
-        gradient: "from-amber-900/30 via-yellow-900/20 to-orange-900/10",
         accent: "#FBBF24",
-        glow: "rgba(251,191,36,0.5)",
+        bgGradient: "linear-gradient(135deg, #1a1508 0%, #2d2210 50%, #1a1505 100%)",
         seal: "土",
         symbol: "⛰️"
     },
@@ -58,11 +52,8 @@ const elementStyles: Record<string, {
 export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
     const cardRef = useRef<HTMLDivElement>(null);
     const style = elementStyles[element] || elementStyles.earth;
-
-    // Extract year from birthDate
     const birthYear = birthDate.split('-')[0] || '????';
 
-    // Generate stable card ID
     const cardId = useMemo(() => {
         const hash = (name + birthDate).split('').reduce((a, b) => a + b.charCodeAt(0), 0);
         return `SF-${birthYear}-${String(hash % 10000).padStart(4, '0')}`;
@@ -91,7 +82,6 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
             const dataUrl = await toPng(cardRef.current, { quality: 1.0, pixelRatio: 3, backgroundColor: '#000000' });
             const blob = await (await fetch(dataUrl)).blob();
             const file = new File([blob], `SOULFILE_${name}_2026.png`, { type: "image/png" });
-
             if (navigator.share && navigator.canShare({ files: [file] })) {
                 await navigator.share({
                     title: "My SOULFILE 2026",
@@ -107,145 +97,217 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
     };
 
     return (
-        <div className="flex flex-col items-center gap-6">
-            {/* Premium Instagram-Ready Soul Card */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '24px' }}>
+            {/* Soul Card - Instagram-Ready Square */}
             <div
                 ref={cardRef}
-                className="relative w-[360px] aspect-square rounded-3xl overflow-hidden"
                 style={{
-                    background: `linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%)`,
-                    boxShadow: `0 25px 80px -20px ${style.glow}, 0 0 0 1px rgba(255,255,255,0.08)`,
+                    width: '340px',
+                    height: '340px',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    position: 'relative',
+                    background: style.bgGradient,
+                    boxShadow: `0 25px 60px -15px ${style.accent}40, 0 0 0 1px rgba(255,255,255,0.08)`,
                 }}
             >
-                {/* Background gradient overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${style.gradient} opacity-60`} />
+                {/* Grid pattern overlay */}
+                <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundImage: 'linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px)',
+                    backgroundSize: '20px 20px',
+                    pointerEvents: 'none',
+                }} />
 
-                {/* Noise texture */}
-                <div
-                    className="absolute inset-0 opacity-[0.04]"
-                    style={{
-                        backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23n)'/%3E%3C/svg%3E")`,
-                    }}
-                />
+                {/* Top accent line */}
+                <div style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    background: `linear-gradient(90deg, transparent, ${style.accent}, transparent)`,
+                }} />
 
-                {/* Grid pattern */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px]" />
-
-                {/* Corner accent lines */}
-                <div className="absolute top-0 left-0 w-16 h-[1px]" style={{ background: `linear-gradient(90deg, ${style.accent}, transparent)` }} />
-                <div className="absolute top-0 left-0 w-[1px] h-16" style={{ background: `linear-gradient(180deg, ${style.accent}, transparent)` }} />
-                <div className="absolute top-0 right-0 w-16 h-[1px]" style={{ background: `linear-gradient(270deg, ${style.accent}, transparent)` }} />
-                <div className="absolute top-0 right-0 w-[1px] h-16" style={{ background: `linear-gradient(180deg, ${style.accent}, transparent)` }} />
-
-                {/* Header */}
-                <div className="absolute top-6 left-6 right-6 flex justify-between items-start">
+                {/* Header Row */}
+                <div style={{
+                    position: 'absolute',
+                    top: '20px',
+                    left: '20px',
+                    right: '20px',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                }}>
                     <div>
-                        <p className="text-[10px] text-zinc-500 tracking-[0.3em] uppercase">SOULFILE</p>
-                        <p className="text-[8px] text-zinc-600 tracking-widest mt-0.5">CYBER-SHAMANISM™</p>
+                        <p style={{ fontSize: '10px', color: '#71717a', letterSpacing: '0.2em', margin: 0 }}>SOULFILE</p>
+                        <p style={{ fontSize: '7px', color: '#52525b', letterSpacing: '0.15em', margin: '2px 0 0 0' }}>CYBER-SHAMANISM™</p>
                     </div>
-                    <div
-                        className="px-3 py-1.5 rounded-full text-[9px] font-bold tracking-wider"
-                        style={{
-                            background: `${style.accent}15`,
-                            color: style.accent,
-                            border: `1px solid ${style.accent}40`,
-                        }}
-                    >
+                    <div style={{
+                        padding: '4px 10px',
+                        borderRadius: '12px',
+                        fontSize: '9px',
+                        fontWeight: 700,
+                        letterSpacing: '0.1em',
+                        background: `${style.accent}20`,
+                        color: style.accent,
+                        border: `1px solid ${style.accent}50`,
+                    }}>
                         2026
                     </div>
                 </div>
 
-                {/* Central Element Display */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center pt-4">
-                    {/* Big Element Symbol */}
-                    <div
-                        className="text-7xl mb-2"
-                        style={{
-                            filter: `drop-shadow(0 0 30px ${style.glow})`,
-                        }}
-                    >
+                {/* Center - Element Display */}
+                <div style={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                }}>
+                    {/* Large Symbol */}
+                    <div style={{
+                        fontSize: '72px',
+                        marginBottom: '8px',
+                        filter: `drop-shadow(0 0 30px ${style.accent}80)`,
+                    }}>
                         {style.symbol}
                     </div>
 
-                    {/* Element Seal */}
-                    <div
-                        className="w-16 h-16 rounded-full border-2 flex items-center justify-center mb-4"
-                        style={{
-                            borderColor: style.accent,
-                            background: `radial-gradient(circle, ${style.accent}20, transparent)`,
-                            boxShadow: `0 0 40px ${style.glow}, inset 0 0 20px ${style.accent}10`,
-                        }}
-                    >
-                        <span
-                            className="text-3xl font-bold"
-                            style={{
-                                color: style.accent,
-                                textShadow: `0 0 20px ${style.accent}`,
-                            }}
-                        >
+                    {/* Seal Circle */}
+                    <div style={{
+                        width: '56px',
+                        height: '56px',
+                        borderRadius: '50%',
+                        border: `2px solid ${style.accent}`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginBottom: '12px',
+                        background: `radial-gradient(circle, ${style.accent}25, transparent)`,
+                        boxShadow: `0 0 30px ${style.accent}50`,
+                    }}>
+                        <span style={{
+                            fontSize: '28px',
+                            fontWeight: 700,
+                            color: style.accent,
+                            textShadow: `0 0 15px ${style.accent}`,
+                        }}>
                             {style.seal}
                         </span>
                     </div>
 
                     {/* Element Name */}
-                    <p
-                        className="text-2xl font-bold tracking-[0.2em] uppercase mb-1"
-                        style={{ color: style.accent }}
-                    >
+                    <p style={{
+                        fontSize: '24px',
+                        fontWeight: 700,
+                        letterSpacing: '0.2em',
+                        textTransform: 'uppercase',
+                        color: style.accent,
+                        margin: 0,
+                    }}>
                         {element}
                     </p>
-                    <p className="text-[10px] text-zinc-500 tracking-widest uppercase">ELEMENT</p>
+                    <p style={{
+                        fontSize: '9px',
+                        letterSpacing: '0.3em',
+                        textTransform: 'uppercase',
+                        color: '#71717a',
+                        margin: '4px 0 0 0',
+                    }}>
+                        ELEMENT
+                    </p>
                 </div>
 
-                {/* Subject Info - Bottom */}
-                <div className="absolute bottom-6 left-6 right-6">
-                    {/* Divider line */}
-                    <div className="h-[1px] w-full bg-zinc-800 mb-4" />
+                {/* Bottom - Subject Info */}
+                <div style={{
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    right: '20px',
+                }}>
+                    {/* Divider */}
+                    <div style={{ height: '1px', background: '#3f3f46', marginBottom: '12px' }} />
 
-                    <div className="flex justify-between items-end">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
                         <div>
-                            <p className="text-[8px] text-zinc-600 tracking-widest uppercase mb-1">SUBJECT</p>
-                            <p className="text-lg font-bold text-white tracking-wide uppercase">
+                            <p style={{ fontSize: '8px', color: '#52525b', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 4px 0' }}>SUBJECT</p>
+                            <p style={{
+                                fontSize: '16px',
+                                fontWeight: 700,
+                                color: 'white',
+                                letterSpacing: '0.05em',
+                                textTransform: 'uppercase',
+                                margin: 0,
+                            }}>
                                 {name}
                             </p>
                         </div>
-                        <div className="text-right">
-                            <p className="text-[8px] text-zinc-600 tracking-widest uppercase mb-1">ID</p>
-                            <p className="text-xs font-mono text-zinc-400">{cardId}</p>
+                        <div style={{ textAlign: 'right' }}>
+                            <p style={{ fontSize: '8px', color: '#52525b', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 4px 0' }}>ID</p>
+                            <p style={{
+                                fontSize: '11px',
+                                fontFamily: 'monospace',
+                                color: '#a1a1aa',
+                                margin: 0,
+                            }}>
+                                {cardId}
+                            </p>
                         </div>
                     </div>
                 </div>
-
-                {/* Decorative elements */}
-                <Sparkles
-                    className="absolute top-6 right-20 w-3 h-3 opacity-30"
-                    style={{ color: style.accent }}
-                />
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex gap-3">
+            {/* Buttons */}
+            <div style={{ display: 'flex', gap: '12px' }}>
                 <motion.button
                     onClick={shareCard}
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-all"
                     style={{
-                        background: `linear-gradient(135deg, ${style.accent}20, ${style.accent}10)`,
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '12px 20px',
+                        borderRadius: '24px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                        background: `${style.accent}20`,
                         color: style.accent,
-                        border: `1px solid ${style.accent}40`,
+                        border: `1px solid ${style.accent}50`,
+                        cursor: 'pointer',
                     }}
                 >
-                    <Share2 className="w-4 h-4" />
+                    <Share2 style={{ width: '14px', height: '14px' }} />
                     Share
                 </motion.button>
                 <motion.button
                     onClick={downloadCard}
-                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 px-6 py-3 bg-zinc-900 border border-zinc-700 text-zinc-300 rounded-full text-xs font-semibold uppercase tracking-wider hover:bg-zinc-800 transition-all"
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        padding: '12px 20px',
+                        borderRadius: '24px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.1em',
+                        background: '#18181b',
+                        color: '#a1a1aa',
+                        border: '1px solid #3f3f46',
+                        cursor: 'pointer',
+                    }}
                 >
-                    <Download className="w-4 h-4" />
+                    <Download style={{ width: '14px', height: '14px' }} />
                     Save
                 </motion.button>
             </div>
