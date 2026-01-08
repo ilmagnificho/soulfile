@@ -70,7 +70,7 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                         0 0 20px rgba(220, 38, 38, 0.4)
                       `
                                     }}>
-                                    Soul Access Agreement
+                                    SOULFILE Access Agreement
                                 </h2>
                             </motion.div>
                         </div>
@@ -85,14 +85,14 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                                             Important Notice
                                         </h3>
                                         <p className="text-zinc-400 text-xs leading-relaxed">
-                                            This Saja Soul Analysis is provided for <strong className="text-white">ENTERTAINMENT PURPOSES ONLY</strong>.
+                                            This SOULFILE System analysis is provided for <strong className="text-white">ENTERTAINMENT PURPOSES ONLY</strong>.
                                         </p>
                                     </div>
                                 </div>
 
                                 <div className="space-y-2 text-zinc-500 text-xs leading-relaxed">
                                     <p>
-                                        The results are based on traditional Korean cosmology (Yin-Yang Five Elements Theory)
+                                        The results are based on traditional Korean cosmology (Eum-Yang & O-Haeng)
                                         and should not be used for:
                                     </p>
                                     <ul className="list-disc list-inside space-y-1 ml-2">
@@ -101,7 +101,7 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                                         <li>Life-changing decisions</li>
                                     </ul>
                                     <p className="pt-2">
-                                        The Saja Boys and Tetra Corporation make no guarantees about accuracy or outcomes.
+                                        The Archivist and The Service Provider make no guarantees about accuracy or outcomes.
                                     </p>
                                     <p className="text-red-500/70 pt-2">
                                         By proceeding, you acknowledge this is a novelty entertainment service.

@@ -71,12 +71,18 @@ function ReportContent() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-6 sm:mb-8"
                 >
+                    {/* Return to Terminal - Fixed Floating Button */}
                     <Link
                         href="/"
-                        className="inline-flex items-center gap-2 text-zinc-500 hover:text-red-600 transition-colors text-xs sm:text-sm uppercase tracking-wider mb-4"
+                        className="fixed bottom-6 left-6 z-50 border-2 border-zinc-700 bg-black/90 backdrop-blur-sm px-6 py-3 text-xs uppercase tracking-widest hover:bg-zinc-900 hover:border-red-600 transition-all flex items-center gap-2 shadow-lg"
+                        style={{
+                            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.5)'
+                        }}
                     >
-                        <span>←</span> Return to Terminal
+                        <span>←</span>
+                        <span className="text-zinc-400">Return to Terminal</span>
                     </Link>
+
                     <div className="border-l-4 border-red-600 pl-4">
                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                             SOUL FILE RETRIEVED
@@ -365,7 +371,7 @@ function ReportContent() {
                                             ease: "easeInOut"
                                         }
                                     }}
-                                    className="w-full bg-gradient-to-r from-yellow-600 to-red-600 hover:from-yellow-700 hover:to-red-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-white px-8 sm:px-12 py-4 sm:py-6 text-base sm:text-xl font-bold uppercase tracking-wider border-2 border-yellow-500 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
+                                    className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
                                     style={!isProcessingPayment ? { willChange: "transform, box-shadow" } : {}}
                                 >
                                     {isProcessingPayment ? (

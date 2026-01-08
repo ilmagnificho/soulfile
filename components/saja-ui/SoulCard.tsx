@@ -79,10 +79,17 @@ export default function SoulCard({ name, birthDate, element, elementColor, stats
             <div className="flex justify-center">
                 <div
                     ref={cardRef}
-                    className={`relative bg-gradient-to-br ${elementGradients[element]} overflow-hidden`}
+                    className={`relative overflow-hidden`}
                     style={{
                         width: "380px",
                         height: "640px",
+                        background: `
+                            linear-gradient(135deg, 
+                                rgba(127, 29, 29, 1) 0%, 
+                                rgba(153, 27, 27, 1) 50%, 
+                                rgba(127, 29, 29, 1) 100%
+                            )
+                        `,
                     }}
                 >
                     {/* Holographic overlay effect */}

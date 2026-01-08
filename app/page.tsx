@@ -113,7 +113,7 @@ export default function HomePage() {
           className="mt-4 sm:mt-8 text-center px-4"
         >
           <p className="text-zinc-600 text-xs sm:text-sm uppercase tracking-wider">
-            Managed by the Saja Boys // Modern Korean Grim Reapers
+            Managed by The Archivist // SOULFILE System
           </p>
           <div className="mt-4 flex items-center justify-center gap-2 text-zinc-700">
             <span className="text-xs">⚡</span>
