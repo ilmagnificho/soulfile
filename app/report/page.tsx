@@ -232,198 +232,198 @@ function ReportContent() {
                             style={{
                                 textShadow: `0 0 10px rgba(168, 85, 247, 0.6)`
                             }}>
-                            📸 Your Soul Card
-                        </h3>
-                        <p className="text-zinc-400 text-sm text-center mb-6">
-                            Share your unique soul identity with the world! Download or share your personalized Soul Card.
-                        </p>
-                        <SoulCard
-                            name={name}
-                            birthDate={birthDate}
-                            element={elementData.element}
-                            elementColor={elementData.color}
-                            stats={stats}
-                        />
-                    </div>
-                </motion.div>
+                            {/* Soul Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.4 }}
+                                className="mt-8 sm:mt-12"
+                            >
+                                <SoulCard
+                                    name={name}
+                                    birthDate={birthDate}
+                                    element={elementData.element}
+                                />
+                            </motion.div>
+                        </motion.div>
 
-                {/* Locked Premium Section - Full Width */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="relative border-2 border-red-600/50 bg-gradient-to-br from-red-950/20 to-black p-6 sm:p-8 md:p-12 overflow-hidden"
-                >
-                    {/* Background pattern */}
-                    <div className="absolute inset-0 opacity-5">
-                        <div className="absolute inset-0 bg-[linear-gradient(45deg,#dc2626_1px,transparent_1px)] bg-[size:20px_20px]" />
-                    </div>
+                        {/* Locked Premium Section - Full Width */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="relative border-2 border-red-600/50 bg-gradient-to-br from-red-950/20 to-black p-6 sm:p-8 md:p-12 overflow-hidden"
+                        >
+                            {/* Background pattern */}
+                            <div className="absolute inset-0 opacity-5">
+                                <div className="absolute inset-0 bg-[linear-gradient(45deg,#dc2626_1px,transparent_1px)] bg-[size:20px_20px]" />
+                            </div>
 
-                    <div className="relative z-10">
-                        <motion.h3
-                            animate={{
-                                opacity: [1, 0.7, 1],
-                                scale: [1, 1.02, 1]
-                            }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                            className="text-red-500 text-2xl sm:text-3xl md:text-5xl font-bold uppercase mb-6 flex items-center gap-3 justify-center sm:justify-start"
-                            style={{
-                                textShadow: `
+                            <div className="relative z-10">
+                                <motion.h3
+                                    animate={{
+                                        opacity: [1, 0.7, 1],
+                                        scale: [1, 1.02, 1]
+                                    }}
+                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    className="text-red-500 text-2xl sm:text-3xl md:text-5xl font-bold uppercase mb-6 flex items-center gap-3 justify-center sm:justify-start"
+                                    style={{
+                                        textShadow: `
                                 0 0 15px rgba(220, 38, 38, 1),
                                 0 0 30px rgba(220, 38, 38, 0.7),
                                 0 0 45px rgba(220, 38, 38, 0.4)
                               `
-                            }}>
-                            <span className="text-3xl md:text-5xl">⚠️</span>
-                            Critical Danger Period Detected in 2026
-                        </motion.h3>
+                                    }}>
+                                    <span className="text-3xl md:text-5xl">⚠️</span>
+                                    Critical Danger Period Detected in 2026
+                                </motion.h3>
 
-                        {/* Blurred Content */}
-                        <div className="relative mb-8">
-                            {/* The blurred preview text */}
-                            <div className="blur-sm select-none space-y-2 text-zinc-300 text-sm sm:text-base leading-relaxed">
-                                <p>██████ analysis indicates significant █████ disruption during ████ period...</p>
-                                <p>Your element ({elementData.element.toUpperCase()}) will face challenges from ████████ and ███████████...</p>
-                                <p>██████ will bring unexpected ████████ in March 2026, followed by ████████████...</p>
-                                <p>Relationship warning: ████████████████ between ██/██ and ██/██ may cause ███████...</p>
-                                <p>Financial opportunity: ██████████ between ██/██ and ██/██ offers ████████ potential...</p>
-                                <p>Recommended protective measures: ████████, ██████████, and daily ████ rituals...</p>
-                                <p>Lucky dates: ██/██, ██/██, and ██/██ (marked for ████████ success)...</p>
-                                <p>Unlucky periods: ████████ to ████████ and ██████ to ██████ (avoid major decisions)...</p>
-                                <p>Critical health warning: ████████████████████ requires immediate ██████████...</p>
-                                <p>Career insights: ████████ shift expected in ████, prepare with ███████████...</p>
-                                <p>Spiritual guidance: ████████ meditation on ██████ will strengthen ████████ protection...</p>
-                                <p>Additional warnings about ████████████████████ and ███████████████...</p>
-                            </div>
+                                {/* Blurred Content */}
+                                <div className="relative mb-8">
+                                    {/* The blurred preview text */}
+                                    <div className="blur-sm select-none space-y-2 text-zinc-300 text-sm sm:text-base leading-relaxed">
+                                        <p>██████ analysis indicates significant █████ disruption during ████ period...</p>
+                                        <p>Your element ({elementData.element.toUpperCase()}) will face challenges from ████████ and ███████████...</p>
+                                        <p>██████ will bring unexpected ████████ in March 2026, followed by ████████████...</p>
+                                        <p>Relationship warning: ████████████████ between ██/██ and ██/██ may cause ███████...</p>
+                                        <p>Financial opportunity: ██████████ between ██/██ and ██/██ offers ████████ potential...</p>
+                                        <p>Recommended protective measures: ████████, ██████████, and daily ████ rituals...</p>
+                                        <p>Lucky dates: ██/██, ██/██, and ██/██ (marked for ████████ success)...</p>
+                                        <p>Unlucky periods: ████████ to ████████ and ██████ to ██████ (avoid major decisions)...</p>
+                                        <p>Critical health warning: ████████████████████ requires immediate ██████████...</p>
+                                        <p>Career insights: ████████ shift expected in ████, prepare with ███████████...</p>
+                                        <p>Spiritual guidance: ████████ meditation on ██████ will strengthen ████████ protection...</p>
+                                        <p>Additional warnings about ████████████████████ and ███████████████...</p>
+                                    </div>
 
-                            {/* Lock Overlay */}
-                            <div className="absolute inset-0 backdrop-blur-md bg-black/60 flex flex-col items-center justify-center">
-                                <motion.div
-                                    animate={{ scale: [1, 1.1, 1] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
-                                    className="mb-4"
-                                >
-                                    <Lock className="w-16 h-16 sm:w-20 sm:h-20 text-red-500" />
-                                </motion.div>
+                                    {/* Lock Overlay */}
+                                    <div className="absolute inset-0 backdrop-blur-md bg-black/60 flex flex-col items-center justify-center">
+                                        <motion.div
+                                            animate={{ scale: [1, 1.1, 1] }}
+                                            transition={{ duration: 2, repeat: Infinity }}
+                                            className="mb-4"
+                                        >
+                                            <Lock className="w-16 h-16 sm:w-20 sm:h-20 text-red-500" />
+                                        </motion.div>
 
-                                <p className="text-red-500 text-lg sm:text-xl font-bold uppercase tracking-wider mb-2">
-                                    Encrypted Data Detected
-                                </p>
-                                <p className="text-zinc-400 text-xs sm:text-sm mb-6 text-center px-4">
-                                    Critical destiny patterns require Level 2 clearance
-                                </p>
+                                        <p className="text-red-500 text-lg sm:text-xl font-bold uppercase tracking-wider mb-2">
+                                            Encrypted Data Detected
+                                        </p>
+                                        <p className="text-zinc-400 text-xs sm:text-sm mb-6 text-center px-4">
+                                            Critical destiny patterns require Level 2 clearance
+                                        </p>
 
-                                {/* What You Get List */}
-                                <div className="mb-6 text-left max-w-md">
-                                    <p className="text-zinc-400 text-xs sm:text-sm mb-3 text-center">
-                                        Unlock Full Report ($4.99):
-                                    </p>
-                                    <div className="space-y-2 text-xs sm:text-sm">
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-green-500 flex-shrink-0">✓</span>
-                                            <span className="text-zinc-300">Complete 2026 Monthly Forecast</span>
+                                        {/* What You Get List */}
+                                        <div className="mb-6 text-left max-w-md">
+                                            <p className="text-zinc-400 text-xs sm:text-sm mb-3 text-center">
+                                                Unlock Full Report ($4.99):
+                                            </p>
+                                            <div className="space-y-2 text-xs sm:text-sm">
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-500 flex-shrink-0">✓</span>
+                                                    <span className="text-zinc-300">Complete 2026 Monthly Forecast</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-500 flex-shrink-0">✓</span>
+                                                    <span className="text-zinc-300">Lucky & Unlucky Dates</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-500 flex-shrink-0">✓</span>
+                                                    <span className="text-zinc-300">Relationship Compatibility Analysis</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-500 flex-shrink-0">✓</span>
+                                                    <span className="text-zinc-300">High-Res Digital Pujeok (Download)</span>
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-green-500 flex-shrink-0">✓</span>
+                                                    <span className="text-zinc-300">Lifetime Access to Your Report</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-green-500 flex-shrink-0">✓</span>
-                                            <span className="text-zinc-300">Lucky & Unlucky Dates</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-green-500 flex-shrink-0">✓</span>
-                                            <span className="text-zinc-300">Relationship Compatibility Analysis</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-green-500 flex-shrink-0">✓</span>
-                                            <span className="text-zinc-300">High-Res Digital Pujeok (Download)</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-green-500 flex-shrink-0">✓</span>
-                                            <span className="text-zinc-300">Lifetime Access to Your Report</span>
+
+                                        {/* Payment Button - Sticky on Mobile, Inline on Desktop */}
+                                        <div className="fixed md:relative bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto z-50 md:z-auto bg-black md:bg-transparent p-4 md:p-0 border-t md:border-t-0 border-zinc-800">
+                                            {/* CTA Button with intense pulsing glow */}
+                                            <motion.button
+                                                onClick={handleUnlock}
+                                                disabled={isProcessingPayment}
+                                                whileHover={!isProcessingPayment ? { scale: 1.08, rotate: 1 } : {}}
+                                                whileTap={!isProcessingPayment ? { scale: 0.92 } : {}}
+                                                animate={!isProcessingPayment ? {
+                                                    boxShadow: [
+                                                        "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
+                                                        "0 0 50px rgba(220, 38, 38, 1), 0 0 100px rgba(220, 38, 38, 0.7), 0 0 150px rgba(220, 38, 38, 0.4)",
+                                                        "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
+                                                    ],
+                                                    scale: [1, 1.03, 1]
+                                                } : {}}
+                                                transition={{
+                                                    boxShadow: {
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut"
+                                                    },
+                                                    scale: {
+                                                        duration: 2,
+                                                        repeat: Infinity,
+                                                        ease: "easeInOut"
+                                                    }
+                                                }}
+                                                className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
+                                                style={!isProcessingPayment ? { willChange: "transform, box-shadow" } : {}}
+                                            >
+                                                {isProcessingPayment ? (
+                                                    <>
+                                                        <Loader2 className="w-5 h-5 animate-spin" />
+                                                        Processing...
+                                                    </>
+                                                ) : (
+                                                    "🔓 UNLOCK SOULFILE 2026 ($4.99)"
+                                                )}
+                                            </motion.button>
+
+                                            <p className="text-zinc-600 text-xs mt-4">
+                                                Secure checkout by Lemon Squeezy 🍋
+                                            </p>
+
+                                            {/* Bonus Item Notice */}
+                                            <motion.div
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ delay: 1 }}
+                                                className="mt-6 border border-zinc-700 bg-black/50 px-4 py-2 text-xs text-zinc-400"
+                                            >
+                                                ✨ Bonus: Anti-Bad-Luck Charm included
+                                            </motion.div>
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Payment Button - Sticky on Mobile, Inline on Desktop */}
-                                <div className="fixed md:relative bottom-0 left-0 right-0 md:bottom-auto md:left-auto md:right-auto z-50 md:z-auto bg-black md:bg-transparent p-4 md:p-0 border-t md:border-t-0 border-zinc-800">
-                                    {/* CTA Button with intense pulsing glow */}
-                                    <motion.button
-                                        onClick={handleUnlock}
-                                        disabled={isProcessingPayment}
-                                        whileHover={!isProcessingPayment ? { scale: 1.08, rotate: 1 } : {}}
-                                        whileTap={!isProcessingPayment ? { scale: 0.92 } : {}}
-                                        animate={!isProcessingPayment ? {
-                                            boxShadow: [
-                                                "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                                "0 0 50px rgba(220, 38, 38, 1), 0 0 100px rgba(220, 38, 38, 0.7), 0 0 150px rgba(220, 38, 38, 0.4)",
-                                                "0 0 30px rgba(220, 38, 38, 0.6), 0 0 60px rgba(220, 38, 38, 0.4)",
-                                            ],
-                                            scale: [1, 1.03, 1]
-                                        } : {}}
-                                        transition={{
-                                            boxShadow: {
-                                                duration: 2,
-                                                repeat: Infinity,
-                                                ease: "easeInOut"
-                                            },
-                                            scale: {
-                                                duration: 2,
-                                                repeat: Infinity,
-                                                ease: "easeInOut"
-                                            }
-                                        }}
-                                        className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 sm:px-12 py-5 sm:py-7 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 transition-all flex items-center justify-center gap-3"
-                                        style={!isProcessingPayment ? { willChange: "transform, box-shadow" } : {}}
-                                    >
-                                        {isProcessingPayment ? (
-                                            <>
-                                                <Loader2 className="w-5 h-5 animate-spin" />
-                                                Processing...
-                                            </>
-                                        ) : (
-                                            "🔓 UNLOCK SOULFILE 2026 ($4.99)"
-                                        )}
-                                    </motion.button>
-
-                                    <p className="text-zinc-600 text-xs mt-4">
-                                        Secure checkout by Lemon Squeezy 🍋
-                                    </p>
-
-                                    {/* Bonus Item Notice */}
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ delay: 1 }}
-                                        className="mt-6 border border-zinc-700 bg-black/50 px-4 py-2 text-xs text-zinc-400"
-                                    >
-                                        ✨ Bonus: Anti-Bad-Luck Charm included
-                                    </motion.div>
-                                </div>
                             </div>
+                        </motion.div>
+
+                        {/* Footer */}
+                        <div className="mt-8 sm:mt-12 text-center">
+                            <p className="text-zinc-600 text-xs uppercase tracking-wider">
+                                SYSTEM SECURE // ENCRYPTED BY SOULFILE ARCHIVES
+                            </p>
+                            <p className="text-zinc-700 text-xs mt-2 font-mono">
+                                NETHERWORLD DATABASE V2.6
+                            </p>
                         </div>
                     </div>
-                </motion.div>
-
-                {/* Footer */}
-                <div className="mt-8 sm:mt-12 text-center">
-                    <p className="text-zinc-600 text-xs uppercase tracking-wider">
-                        SYSTEM SECURE // ENCRYPTED BY SOULFILE ARCHIVES
-                    </p>
-                    <p className="text-zinc-700 text-xs mt-2 font-mono">
-                        NETHERWORLD DATABASE V2.6
-                    </p>
-                </div>
-            </div>
-        </main>
-    );
+                </main>
+                );
 }
 
-export default function ReportPage() {
+                export default function ReportPage() {
     return (
-        <Suspense fallback={
-            <div className="min-h-screen bg-black flex items-center justify-center text-red-600">
-                Loading...
-            </div>
-        }>
-            <ReportContent />
-        </Suspense>
-    );
+                <Suspense fallback={
+                    <div className="min-h-screen bg-black flex items-center justify-center text-red-600">
+                        Loading...
+                    </div>
+                }>
+                    <ReportContent />
+                </Suspense>
+                );
 }
