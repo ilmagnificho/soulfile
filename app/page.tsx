@@ -5,16 +5,16 @@ import FortuneForm from "@/components/saja-ui/FortuneForm";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center py-8 px-4 bg-black relative overflow-hidden">
+    <main className="h-[100dvh] flex flex-col items-center justify-between py-4 sm:py-8 px-4 bg-black relative overflow-hidden">
       {/* Background grid effect */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20" />
 
       {/* Red glow effect */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/10 rounded-full blur-[120px]" />
 
-      <div className="relative z-10 w-full max-w-4xl">
+      <div className="relative z-10 w-full max-w-4xl flex-1 flex flex-col justify-center">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-6 sm:mb-12">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,7 +94,7 @@ export default function HomePage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1, duration: 0.8 }}
-          className="mt-8 sm:mt-12 text-center px-4"
+          className="mt-4 sm:mt-8 text-center px-4"
         >
           <p className="text-zinc-600 text-xs sm:text-sm uppercase tracking-wider">
             Managed by the Saja Boys // Modern Korean Grim Reapers

@@ -11,7 +11,6 @@ export default function FortuneForm() {
     const [year, setYear] = useState("");
     const [month, setMonth] = useState("");
     const [day, setDay] = useState("");
-    const [time, setTime] = useState("");
     const [isScanning, setIsScanning] = useState(false);
     const [showHackingLoader, setShowHackingLoader] = useState(false);
     const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -29,7 +28,6 @@ export default function FortuneForm() {
     // Refs for auto-focus
     const monthRef = useRef<HTMLInputElement>(null);
     const dayRef = useRef<HTMLInputElement>(null);
-    const timeRef = useRef<HTMLInputElement>(null);
 
     // Placeholder for glitch sound effect
     const playGlitchSound = () => {
@@ -72,18 +70,8 @@ export default function FortuneForm() {
             const dayNum = parseInt(value);
             if (value === "" || (dayNum >= 1 && dayNum <= 31)) {
                 setDay(value);
-                // Auto-focus to time when 2 digits entered
-                if (value.length === 2 && timeRef.current) {
-                    timeRef.current.focus();
-                }
             }
         }
-    };
-
-    // Handle time input (format: HH:MM)
-    const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value;
-        setTime(value);
     };
 
     const handleScan = (e: React.FormEvent) => {
@@ -125,7 +113,7 @@ export default function FortuneForm() {
             const params = new URLSearchParams({
                 name,
                 birthDate,
-                time: time || "00:00",
+                time: "00:00",
             });
             router.push(`/report?${params.toString()}`);
         }, 3000);
@@ -257,22 +245,6 @@ export default function FortuneForm() {
                                     <p className="text-zinc-600 text-xs mt-1 text-center">Day</p>
                                 </div>
                             </div>
-                        </div>
-
-                        {/* Time field (optional) */}
-                        <div className="space-y-2">
-                            <label htmlFor="time" className="block text-zinc-400 text-xs sm:text-sm uppercase tracking-wider">
-                                Birth Time (Optional)
-                            </label>
-                            <input
-                                ref={timeRef}
-                                id="time"
-                                type="time"
-                                value={time}
-                                onChange={handleTimeChange}
-                                className="w-full bg-black border border-zinc-800 px-3 sm:px-4 py-2 sm:py-3 text-sm sm:text-base text-white focus:border-red-600 focus:outline-none transition-colors font-mono"
-                                disabled={isScanning}
-                            />
                         </div>
 
                         {/* Scan button */}

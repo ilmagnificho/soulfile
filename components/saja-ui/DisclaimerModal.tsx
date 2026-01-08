@@ -26,13 +26,13 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 bg-black z-50 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-[9999] bg-zinc-950 w-full h-full flex items-center justify-center p-4"
                 >
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
-                        className="bg-black border-2 border-red-600/70 max-w-lg w-full relative"
+                        className="bg-black border-2 border-red-600/70 max-w-lg w-full max-h-[85vh] flex flex-col relative"
                         style={{
                             boxShadow: `
                 0 0 30px rgba(220, 38, 38, 0.5),
@@ -71,8 +71,8 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                             </motion.div>
                         </div>
 
-                        {/* Content */}
-                        <div className="p-6 sm:p-8 space-y-6">
+                        {/* Content - Scrollable */}
+                        <div className="p-6 sm:p-8 space-y-6 overflow-y-auto flex-1">
                             <div className="bg-zinc-950/50 border border-red-900/30 p-4 rounded">
                                 <div className="flex items-start gap-3 mb-4">
                                     <span className="text-3xl">⚠️</span>
@@ -104,7 +104,10 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                                     </p>
                                 </div>
                             </div>
+                        </div>
 
+                        {/* Buttons - Sticky at bottom */}
+                        <div className="p-6 sm:p-8 pt-0 border-t border-red-900/30 bg-black">
                             {/* Buttons */}
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <motion.button
