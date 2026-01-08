@@ -356,7 +356,7 @@ function ReportContent() {
                                     boxShadow: {
                                         duration: 2,
                                         repeat: Infinity,
-                                        ease: "easeInDut"
+                                        ease: "easeInOut"
                                     },
                                     scale: {
                                         duration: 2,
