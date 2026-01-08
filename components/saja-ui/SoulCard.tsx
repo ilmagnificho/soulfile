@@ -20,31 +20,31 @@ const elementStyles: Record<string, {
     fire: {
         accent: "#FF6B35",
         bgGradient: "linear-gradient(135deg, #1a0a0a 0%, #2d1010 50%, #1a0808 100%)",
-        seal: "火",
+        seal: "화",
         symbol: "🔥"
     },
     water: {
         accent: "#00D4FF",
         bgGradient: "linear-gradient(135deg, #0a1a1f 0%, #0d2535 50%, #081520 100%)",
-        seal: "水",
+        seal: "수",
         symbol: "🌊"
     },
     wood: {
         accent: "#4ADE80",
         bgGradient: "linear-gradient(135deg, #0a1a10 0%, #102d15 50%, #081a0d 100%)",
-        seal: "木",
+        seal: "목",
         symbol: "🌲"
     },
     metal: {
         accent: "#C0C0C0",
         bgGradient: "linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 50%, #151515 100%)",
-        seal: "金",
+        seal: "금",
         symbol: "⚔️"
     },
     earth: {
         accent: "#FBBF24",
         bgGradient: "linear-gradient(135deg, #1a1508 0%, #2d2210 50%, #1a1505 100%)",
-        seal: "土",
+        seal: "토",
         symbol: "⛰️"
     },
 };
@@ -142,7 +142,7 @@ export default function SoulCard({ name, birthDate, element }: SoulCardProps) {
                 }}>
                     <div>
                         <p style={{ fontSize: '10px', color: '#71717a', letterSpacing: '0.2em', margin: 0 }}>SOULFILE</p>
-                        <p style={{ fontSize: '7px', color: '#52525b', letterSpacing: '0.15em', margin: '2px 0 0 0' }}>CYBER-SHAMANISM™</p>
+                        <p style={{ fontSize: '8px', color: '#52525b', letterSpacing: '0.1em', margin: '2px 0 0 0' }}>K-ORACLE™</p>
                     </div>
                     <div style={{
                         padding: '4px 10px',

@@ -63,7 +63,7 @@ function ReportContent() {
     return (
         <div className="relative">
             {/* MAIN CONTENT */}
-            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-32">
+            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-48">
                 {/* Background effects */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10 pointer-events-none" />
 
@@ -76,9 +76,9 @@ function ReportContent() {
                     >
                         <Link
                             href="/"
-                            className="inline-block font-mono text-xs sm:text-sm bg-black/90 border border-zinc-700 px-3 py-2 hover:bg-zinc-900 hover:text-green-400 transition-all mb-4"
+                            className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm bg-red-950/50 border border-red-800/50 text-red-400 px-4 py-2.5 rounded-lg hover:bg-red-900/50 hover:border-red-700 hover:text-red-300 transition-all mb-4"
                         >
-                            &lt; TERMINAL_ACCESS
+                            ← TERMINAL ACCESS
                         </Link>
 
                         <div className="border-l-4 border-red-600 pl-4">
@@ -121,9 +121,9 @@ function ReportContent() {
                                         <p className="text-zinc-400 text-sm">{elementData.description}</p>
                                     </div>
                                 </div>
-                                <div className="mt-4 flex flex-wrap gap-2">
+                                <div className="mt-4 flex flex-wrap gap-2 justify-center sm:justify-start">
                                     {elementData.traits.map((trait, i) => (
-                                        <span key={i} className="px-3 py-1 bg-zinc-800 text-xs uppercase tracking-wider text-zinc-400">
+                                        <span key={i} className="px-3 py-1 bg-zinc-800 rounded-md text-xs uppercase tracking-wider text-zinc-400">
                                             {trait}
                                         </span>
                                     ))}
