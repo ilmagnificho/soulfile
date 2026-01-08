@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
+import { Suspense, useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -53,12 +53,12 @@ function ReportContent() {
     };
 
     return (
-        <>
-            {/* MAIN CONTENT - Contains all page content with overflow-hidden */}
-            <main className="min-h-screen bg-black text-white p-4 md:p-8 relative overflow-hidden pb-32">
+        <div className="relative">
+            {/* MAIN CONTENT */}
+            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-40">
                 {/* Background effects */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10" />
-                <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-red-600/5 rounded-full blur-[150px]" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10 pointer-events-none" />
+                <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-red-600/5 rounded-full blur-[150px] pointer-events-none" />
 
                 <div className="relative z-10 max-w-6xl mx-auto">
                     {/* Header */}
@@ -69,10 +69,10 @@ function ReportContent() {
                     >
                         <Link
                             href="/"
-                            className="fixed top-4 left-4 z-50 font-mono text-xs sm:text-sm bg-black/90 border border-zinc-700 px-3 py-2 hover:bg-zinc-900 hover:text-green-400 transition-all flex items-center gap-2 shadow-md"
+                            className="inline-block font-mono text-xs sm:text-sm bg-black/90 border border-zinc-700 px-3 py-2 hover:bg-zinc-900 hover:text-green-400 transition-all mb-4"
                         >
                             <span>&lt;</span>
-                            <span>TERMINAL_ACCESS</span>
+                            <span> TERMINAL_ACCESS</span>
                         </Link>
 
                         <div className="border-l-4 border-red-600 pl-4">
@@ -202,16 +202,46 @@ function ReportContent() {
                 </div>
             </main>
 
-            {/* 🔥 PAYMENT BUTTON - COMPLETELY OUTSIDE MAIN TAG 🔥 */}
-            {/* This is a SIBLING of main, not a child - fixes CSS stacking context issue */}
-            <div className="fixed bottom-0 left-0 w-full z-[99999] p-4 pb-8 bg-gradient-to-t from-black via-black to-transparent">
-                <div className="max-w-4xl mx-auto pointer-events-auto">
-                    <motion.button
+            {/* 🔥 PAYMENT BUTTON - USING INLINE STYLE FOR ABSOLUTE VIEWPORT POSITIONING 🔥 */}
+            <div
+                style={{
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    width: '100%',
+                    zIndex: 999999,
+                    padding: '16px',
+                    paddingBottom: '24px',
+                    background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 50%, rgba(0,0,0,0) 100%)',
+                }}
+            >
+                <div style={{ maxWidth: '896px', margin: '0 auto' }}>
+                    <button
                         onClick={handleUnlock}
                         disabled={isProcessingPayment || isUnlocked}
-                        whileHover={!isProcessingPayment && !isUnlocked ? { scale: 1.05 } : {}}
-                        whileTap={!isProcessingPayment && !isUnlocked ? { scale: 0.95 } : {}}
-                        className="w-full bg-gradient-to-r from-yellow-500 via-yellow-600 to-orange-600 hover:from-yellow-600 hover:via-yellow-700 hover:to-orange-700 disabled:bg-zinc-800 disabled:cursor-not-allowed text-black px-8 py-5 text-lg sm:text-2xl font-extrabold uppercase tracking-wider border-4 border-yellow-400 disabled:border-zinc-700 shadow-[0_0_50px_rgba(234,179,8,0.5)] transition-all flex items-center justify-center gap-3"
+                        style={{
+                            width: '100%',
+                            background: isProcessingPayment || isUnlocked
+                                ? '#27272a'
+                                : 'linear-gradient(to right, #eab308, #ca8a04, #ea580c)',
+                            color: isProcessingPayment || isUnlocked ? '#71717a' : '#000000',
+                            padding: '20px 32px',
+                            fontSize: '18px',
+                            fontWeight: 800,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                            border: `4px solid ${isProcessingPayment || isUnlocked ? '#3f3f46' : '#facc15'}`,
+                            boxShadow: isProcessingPayment || isUnlocked
+                                ? 'none'
+                                : '0 0 50px rgba(234,179,8,0.6), 0 0 100px rgba(234,179,8,0.3)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '12px',
+                            cursor: isProcessingPayment || isUnlocked ? 'not-allowed' : 'pointer',
+                            transition: 'all 0.2s ease',
+                        }}
                     >
                         {isUnlocked ? (
                             "✅ UNLOCKED - SCROLL TO VIEW"
@@ -223,13 +253,18 @@ function ReportContent() {
                         ) : (
                             "🔓 UNLOCK FULL SOULFILE ($4.99)"
                         )}
-                    </motion.button>
-                    <p className="text-zinc-500 text-xs mt-2 text-center">
+                    </button>
+                    <p style={{
+                        color: '#71717a',
+                        fontSize: '12px',
+                        marginTop: '8px',
+                        textAlign: 'center'
+                    }}>
                         {isUnlocked ? "Enjoy your complete analysis above ↑" : "MVP Test: Auto-unlocks after 2s"}
                     </p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 
