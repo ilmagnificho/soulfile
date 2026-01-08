@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useState, useRef } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -9,7 +9,7 @@ import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Responsi
 import { calculateElement } from "@/lib/elements";
 import { getFortune, getRedactedPreview } from "@/lib/fortunes";
 import SoulCard from "@/components/saja-ui/SoulCard";
-import { trackUnlockClick } from "@/lib/analytics";
+import { trackUnlockClick, trackPageView, trackEvent } from "@/lib/analytics";
 
 // Map elements to icons
 const elementIcons = {
@@ -57,7 +57,19 @@ function ReportContent() {
         setTimeout(() => {
             contentRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
+
+        // Hide button after showing success message
+        setTimeout(() => {
+            setShowFloatingBar(false);
+        }, 3000);
     };
+
+    // Analytics
+    useEffect(() => {
+        trackPageView(window.location.pathname + window.location.search);
+    }, []);
+
+    const [showFloatingBar, setShowFloatingBar] = useState(true);
 
     return (
         <div className="relative">
@@ -75,7 +87,8 @@ function ReportContent() {
                     >
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm bg-zinc-900 border border-zinc-700 text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-zinc-800 hover:text-white transition-all mb-6"
+                            onClick={() => trackEvent('click_back_home', { from: 'report' })}
+                            className="inline-flex items-center gap-2 font-mono text-sm bg-zinc-800 border-2 border-zinc-500 text-white px-6 py-3 rounded-lg hover:bg-zinc-700 hover:border-zinc-300 transition-all mb-6 font-bold shadow-lg"
                         >
                             ← Back to Home
                         </Link>
@@ -101,7 +114,7 @@ function ReportContent() {
                         >
                             {/* Element Hero */}
                             <div className="border border-zinc-800 bg-zinc-900/50 p-6 sm:p-8">
-                                <div className="flex items-center gap-6">
+                                <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
                                     <div
                                         className={`w-24 h-24 rounded-full border-2 flex items-center justify-center ${elementData.element === "fire" ? "border-red-600 bg-red-600/10" :
                                             elementData.element === "water" ? "border-blue-600 bg-blue-600/10" :
@@ -130,7 +143,7 @@ function ReportContent() {
                             </div>
 
                             {/* Birth Info */}
-                            <div className="border border-zinc-800 bg-zinc-900/50 p-4">
+                            <div className="border border-zinc-800 bg-zinc-900/50 p-4 text-center sm:text-left">
                                 <p className="text-zinc-500 text-xs uppercase mb-1">Birth Date</p>
                                 <p className="font-mono text-white">{birthDate}</p>
                             </div>
@@ -357,9 +370,12 @@ function ReportContent() {
                     padding: '16px',
                     paddingBottom: '24px',
                     background: 'linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.95) 60%, transparent 100%)',
+                    pointerEvents: 'none', // Allow clicking through the gradient area
+                    opacity: showFloatingBar ? 1 : 0, // Fade out instead of unmount for smooth transition
+                    transition: 'opacity 0.5s ease-in-out',
                 }}
             >
-                <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+                <div style={{ maxWidth: '500px', margin: '0 auto', pointerEvents: 'auto' }}>
                     <motion.button
                         onClick={handleUnlock}
                         disabled={isProcessingPayment || isUnlocked}
