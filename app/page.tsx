@@ -117,7 +117,7 @@ export default function HomePage() {
           </p>
           <div className="mt-4 flex items-center justify-center gap-2 text-zinc-700">
             <span className="text-xs">⚡</span>
-            <span className="text-xs sm:text-sm font-mono">CYBER-SHAMANISM</span>
+            <span className="text-xs sm:text-sm font-mono tracking-widest text-emerald-500">K-ORACLE PROTOCOL</span>
             <span className="text-xs">⚡</span>
           </div>
         </motion.div>

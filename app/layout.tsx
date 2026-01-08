@@ -10,7 +10,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SOULFILE | Your Destiny, Decrypted",
-  description: "Analyze your soul based on traditional Korean Eum-Yang & O-Haeng cosmology. Cyber-shamanism access terminal.",
+  description: "Analyze your soul based on traditional Korean Eum-Yang & O-Haeng cosmology. K-Oracle System terminal.",
   keywords: ["Soul Analysis", "Korean Shamanism", "Saju", "Fortune Telling", "Cyberpunk", "Eum-Yang", "O-Haeng", "Five Elements", "Destiny"],
 
   openGraph: {
