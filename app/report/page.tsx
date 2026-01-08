@@ -105,10 +105,10 @@ function ReportContent() {
                                 <div className="flex items-center gap-6">
                                     <div
                                         className={`w-24 h-24 rounded-full border-2 flex items-center justify-center ${elementData.element === "fire" ? "border-red-600 bg-red-600/10" :
-                                                elementData.element === "water" ? "border-blue-600 bg-blue-600/10" :
-                                                    elementData.element === "wood" ? "border-green-600 bg-green-600/10" :
-                                                        elementData.element === "metal" ? "border-zinc-400 bg-zinc-400/10" :
-                                                            "border-amber-600 bg-amber-600/10"
+                                            elementData.element === "water" ? "border-blue-600 bg-blue-600/10" :
+                                                elementData.element === "wood" ? "border-green-600 bg-green-600/10" :
+                                                    elementData.element === "metal" ? "border-zinc-400 bg-zinc-400/10" :
+                                                        "border-amber-600 bg-amber-600/10"
                                             }`}
                                     >
                                         <ElementIcon className="w-12 h-12" />
@@ -219,7 +219,7 @@ function ReportContent() {
                                         <div key={i} className="bg-zinc-900/50 border border-zinc-800 p-4 text-center">
                                             <item.icon className={`w-6 h-6 mx-auto mb-2 ${item.color} opacity-50`} />
                                             <p className="text-zinc-500 text-xs uppercase">{item.label}</p>
-                                            <p className="text-zinc-700 text-lg mt-1">████</p>
+                                            <p className="text-zinc-700 text-lg mt-1">■■■■</p>
                                         </div>
                                     ))}
                                 </div>
