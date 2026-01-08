@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const CODE_CHARS = ["0", "1", "火", "水", "木", "金", "土", "⚡", "🔥", "💀", "█", "▓", "░"];
+const CODE_CHARS = ["화", "수", "목", "금", "토", "✶", "★", "▲", "█", "▓", "░"];
 
 const PROCESS_STEPS = [
     { id: 1, label: "Accessing Netherworld Database", icon: "🌐" },
@@ -49,7 +49,7 @@ export default function HackingLoader() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[99999] w-screen h-screen flex items-center justify-center overflow-hidden"
+            className="fixed inset-0 z-[99999] w-screen h-screen flex items-center justify-center overflow-hidden px-4 py-16"
             style={{
                 backgroundColor: '#000000',
                 opacity: 1,
@@ -85,7 +85,7 @@ export default function HackingLoader() {
             </div>
 
             {/* Main Content - Absolutely Centered */}
-            <div className="w-full max-w-2xl px-4 sm:px-6 relative z-10 flex flex-col items-center">
+            <div className="w-full max-w-2xl px-4 sm:px-6 relative z-10 flex flex-col items-center overflow-y-auto max-h-full py-4">
                 {/* Process Title */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}

@@ -63,7 +63,7 @@ function ReportContent() {
     return (
         <div className="relative">
             {/* MAIN CONTENT */}
-            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-56">
+            <main className="min-h-screen bg-black text-white p-4 md:p-8 pb-64">
                 {/* Background effects */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-10 pointer-events-none" />
 
@@ -76,12 +76,12 @@ function ReportContent() {
                     >
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm bg-red-950/50 border border-red-800/50 text-red-400 px-4 py-2.5 rounded-lg hover:bg-red-900/50 hover:border-red-700 hover:text-red-300 transition-all mb-4"
+                            className="inline-flex items-center gap-2 font-mono text-xs sm:text-sm bg-zinc-900 border border-zinc-700 text-zinc-300 px-4 py-2.5 rounded-lg hover:bg-zinc-800 hover:text-white transition-all mb-6"
                         >
-                            ← TERMINAL ACCESS
+                            ← Back to Home
                         </Link>
 
-                        <div className="border-l-4 border-red-600 pl-4">
+                        <div className="text-center sm:text-left">
                             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2">
                                 SOUL FILE RETRIEVED
                             </h1>
@@ -309,7 +309,7 @@ function ReportContent() {
                                         <p className="text-emerald-500 text-xs font-bold uppercase mb-2">Lucky Dates</p>
                                         <div className="flex flex-wrap gap-2">
                                             {fortune.lucky_dates.map((date, i) => (
-                                                <span key={i} className="px-2 py-1 bg-emerald-900/30 text-emerald-400 text-xs">
+                                                <span key={i} className="px-3 py-1 bg-emerald-900/40 border border-emerald-700/50 text-emerald-300 text-xs rounded-full">
                                                     {date}
                                                 </span>
                                             ))}
@@ -319,7 +319,7 @@ function ReportContent() {
                                         <p className="text-red-500 text-xs font-bold uppercase mb-2">Avoid These Dates</p>
                                         <div className="flex flex-wrap gap-2">
                                             {fortune.unlucky_dates.map((date, i) => (
-                                                <span key={i} className="px-2 py-1 bg-red-900/30 text-red-400 text-xs">
+                                                <span key={i} className="px-3 py-1 bg-red-900/40 border border-red-700/50 text-red-300 text-xs rounded-full">
                                                     {date}
                                                 </span>
                                             ))}

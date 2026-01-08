@@ -36,7 +36,7 @@ export default function DisclaimerModal({ isOpen, onAccept, onCancel }: Disclaim
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.9, opacity: 0 }}
-                        className="bg-black border-2 border-red-600/70 max-w-lg w-full max-h-[85vh] flex flex-col relative"
+                        className="bg-black border-2 border-red-600/70 max-w-lg w-full max-h-[75vh] flex flex-col relative overflow-hidden"
                         style={{
                             boxShadow: `
                 0 0 30px rgba(220, 38, 38, 0.5),
